@@ -1,6 +1,14 @@
 \section*{Abstract}
-\lipsum[2]
+The Navoy AI travel platform is a proprietary software solution that enables users to craft and book ultra personalized trips with seamless automated AI flow.
+It leverages artificial intelligence to generate highly customized travel itineraries and provides enterprise-level API access for businesses.
 
-\lipsum[4]
+To start off, I have two big roles to play.
+\textbf{The first} one is to develop new features for the existing AI travel platform while continuously improving the user experience and personalization capabilities.
+\textbf{The second} and the most important one is to migrate Navoy from a monolithic application to a \textbf{microservices} architecture in order to make it infinitely scalable. I also have to find the ideal environment to deploy my newly created microservices to, in order to ensure their intra-communication.
+
+I start by breaking the application into various NestJS microservices, build the corresponding docker images then create a shared Helm package for the microservices. Second of all, I setup my own \textbf{self-managed Kubernetes cluster with MicroK8s and ansible scripts}, configure it appropriately to support the specific use-case, then deploy the application stack to both staging and production.
+
+Lastly, using \textbf{GitLab's CI/CD pipelines} and also \textbf{GNU's Makefiles} allows me to automate the whole process from start to finish.
+So that in the end, one commit on the main branch is enough to deliver my changes to the clients, which is the standard that \textbf{DevOps compliant} applications should follow.
 
 \newpage

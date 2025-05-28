@@ -1,15 +1,25 @@
+% Global configuration
 \documentclass[12pt,a4paper]{report}
+\renewcommand{\baselinestretch}{1.5} % interline
+\renewcommand{\familydefault}{\rmdefault} % default font
+
+% Main packages
 \input{./package.tex}
+
+% Global configuration
+\input{./src/config/pre-doc.tex}
+
+% Glossary for acronyms
 \input{./src/components/glossary.tex}
 
 % ------------- Document content ------------- %
 \begin{document}
 
-% Global config
-\input{./config.tex}
+% In-document configuration
+\input{./src/config/in-doc.tex}
 
 % Include the cover page
-\includepdf[]{src/assets/pdfs/cover-page.pdf}
+\includepdf[]{./src/assets/pdfs/cover-page.pdf}
 
 % Set page numbering to roman for initial pages
 \pagenumbering{roman}
@@ -17,10 +27,10 @@
 
 % Dedication and acknowledgments
 % \input{src/components/dedications.tex} % Optional
-\input{src/components/acknowledgments.tex}
+\input{./src/components/acknowledgments.tex}
 
 % Abstract or TL;DR
-\input{src/components/abstract.tex}
+\input{./src/components/abstract.tex}
 
 % Print the acronyms list
 \printunsrtglossaries
@@ -36,8 +46,10 @@
 % Set page numbering to Arabic for main content
 \pagenumbering{arabic}
 
-% Include the main app
-\input{src/app.tex}
+% Include the main app, reset the title spacing for the app chapters only
+\titlespacing*{\chapter}{0pt}{20pt}{40pt}
+\input{./src/app.tex}
+\titlespacing*{\chapter}{0pt}{-50pt}{40pt}
 
 % Generate a webography, for more styles
 % see - https://www.overleaf.com/learn/latex/Bibtex_bibliography_styles#Table_of_stylename_values
@@ -52,7 +64,13 @@
 \setcounter{page}{0}
 
 % Very big diagrams, pictures or schemas go here
-\input{src/components/appendices.tex}
+% \input{src/components/appendices.tex}
+
+% Remove page numbering for abstract
+\pagenumbering{gobble}
+
+% % Abstract or TL;DR
+% \input{src/components/abstract.tex}
 
 \end{document}
 % ------------- Document content ------------- %

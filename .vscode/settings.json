@@ -6,8 +6,9 @@
       "tools": ["latexmk"]
     }
   ],
-  "latex-workshop.message.badbox.show": false,
+  "latex-workshop.message.badbox.show": "none",
   "latex-workshop.view.pdf.viewer": "tab",
   "latex-workshop.synctex.afterBuild.enabled": true,
-  "latex-workshop.latex.autoBuild.run": "onSave"
+  "latex-workshop.latex.autoBuild.run": "onSave",
+  "latex-workshop.formatting.latex": "latexindent"
 }
