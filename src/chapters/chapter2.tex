@@ -5,63 +5,62 @@
 \setcounter{secnumdepth}{0} % Set the section counter to 0 so next section is not counted in toc
 % ----------------------- Introduction ----------------------- %
 \section{Introduction}
-This chapter will present and study various concepts such as browser automation, web scraping, version control and DevOps with an emphasis on key DevOps terminologies.
-We will talk about the most used tools in the market as well as which ones we settled on after making a comparison.
+This chapter presents and studies various concepts essential to modernizing Navoy's AI travel platform, including DevSecOps practices, microservices architecture, container orchestration, and infrastructure as code.
+I will discuss the most used tools in the market as well as which ones I settled on after making comparative studies to ensure the best fit for a scalable travel technology platform.
 
 \setcounter{secnumdepth}{2} % Resume counting the sections for the toc with a depth of 2 (Sections and sub-sections)
 % ----------------------------------- SECTIONS (v) ----------------------------------- %
-% ----------------------- DevOps ----------------------- %
-\section{DevOps}
+% ----------------------- DevSecOps ----------------------- %
+\section{DevSecOps}
 
 \subsection{Definition}
-\lipsum[2][1]
+DevSecOps is an evolution of DevOps that integrates security practices into every stage of the software development lifecycle. Unlike traditional approaches where security is treated as a separate phase, DevSecOps embeds security considerations from the initial design through deployment and maintenance. This approach is particularly crucial for travel technology platforms like Navoy's, where sensitive user data, payment information, and booking details must be protected throughout the entire development and deployment process.
 
-\subsection{Lifecycle}
-\lipsum[2][1]
+The core principle of DevSecOps is "security as code," meaning that security policies, compliance checks, and vulnerability assessments are automated and integrated directly into CI/CD pipelines. This ensures that security is not an afterthought but a fundamental aspect of the development process, enabling faster and more secure releases.
 
-\subsection{Container management}
-\lipsum[2][1]
+\subsection{DevSecOps Lifecycle}
+The DevSecOps lifecycle consists of several key phases that integrate security seamlessly into development operations:
 
-\subsubsection*{What is a container ?}
-\lipsum[2][1]
+\begin{itemize}
+    \item \textbf{Plan}: Security requirements and threat modeling are incorporated during the planning phase
+    \item \textbf{Code}: Secure coding practices and static application security testing (SAST) are applied
+    \item \textbf{Build}: Security scanning and dependency vulnerability checks are automated
+    \item \textbf{Test}: Dynamic application security testing (DAST) and penetration testing are performed
+    \item \textbf{Deploy}: Infrastructure security scans and compliance checks are executed
+    \item \textbf{Monitor}: Continuous security monitoring and incident response are maintained
+\end{itemize}
 
-\subsubsection*{What is container management ?}
-\lipsum[2][1]
+For Navoy's AI travel platform, this lifecycle ensures that security vulnerabilities are caught early, reducing the risk of exposing sensitive travel data and maintaining compliance with data protection regulations.
 
-\subsection{CI/CD pipelines}
-\lipsum[2][1]
+\subsection{Container Security}
+Container security is a critical aspect of DevSecOps, especially when deploying microservices architectures. It involves securing the entire container lifecycle from image creation to runtime.
 
-% ----------------------- Comparative Analysis ----------------------- %
-\section{Comparative Analysis}
-In order to get started with our project, we need a wide range of tools that deal with the following areas; version control, orchestration between containers, browser automation as well as scheduled automation. For that, we did a comparative study on some of the tools the market provides.
+\subsubsection*{What is container security?}
+Container security encompasses the practice of protecting containerized applications and their runtime environments. This includes securing container images, the container runtime, and the orchestration platform. Key aspects include vulnerability scanning of base images, implementing least-privilege access controls, and continuous monitoring of container behavior.
 
-\subsection{Version Control: Git vs SVN}
-The most used tools for version control are Git and SVN. Here is a table comparing both tools.
+\subsubsection*{Security scanning in CI/CD}
+Security scanning in CI/CD pipelines involves automated vulnerability assessments at multiple stages. This includes scanning container images for known vulnerabilities, checking dependencies for security issues, and performing static code analysis. For Navoy's platform, this ensures that no vulnerable components are deployed to production, maintaining the security of the travel booking system.
+
+\subsection{Infrastructure as Code (IaC) Security}
+Infrastructure as Code security involves applying security best practices to infrastructure definitions and ensuring that cloud resources are configured securely by default. This includes scanning IaC templates for misconfigurations, implementing policy as code, and maintaining compliance with security standards throughout the infrastructure provisioning process.
+
+% ----------------------- AI Technologies ----------------------- %
+\section{AI Technologies for Trip Generation}
+
+\subsection{Large Language Models (LLMs)}
+Large Language Models are the core technology powering Navoy's AI-driven trip generation capabilities. These models understand natural language inputs from users describing their travel preferences and generate personalized itineraries with contextual recommendations for destinations, activities, accommodations, and dining options.
+
+For travel technology platforms like Navoy's, LLMs enable the transformation of unstructured user requests into structured, actionable travel plans while maintaining the conversational and personalized nature that users expect from modern AI assistants.
+
+\subsection{Model Selection and Integration}
+The choice of LLM provider and integration approach is crucial for maintaining both quality and reliability in AI-powered travel recommendations.
+
+\subsection{AI Models: OpenAI GPT vs Claude vs LiteLLM}
+For AI-powered trip generation, selecting the right language model and integration approach is critical for delivering high-quality, personalized travel recommendations.
+
 \begin{table}[H]
     \renewcommand{\arraystretch}{1.5}%
-    \caption{Comparative study between Git and SVN}
-    \centering
-    \medskip
-    \begin{tabularx}{1\textwidth} {
-            | >{\hsize=.5\hsize\linewidth=\hsize\centering\arraybackslash}X
-            | >{\hsize=1.25\hsize\linewidth=\hsize\justifying\arraybackslash}X
-            | >{\hsize=1.25\hsize\linewidth=\hsize\justifying\arraybackslash}X |}
-        \hline
-        \rowcolor{primary} & \textbf {Description}                                                                                                                                   & \textbf {Advantages}                                                                                                                                                                     \\
-        \hline
-        \textbf{Git}       & \noindent Git is a distributed version control system which means that when cloning a repository, you get a copy of the entire history of that project. & \noindent Git has what's called a staging area. This means that even if you made over a 100 changes, they can be broken down to 10 commits each with their own comments and description. \\
-        \hline
-        \textbf{SVN}       & \noindent SVN or Subversion is a centralized version control system. Meaning that there is always a single version of the repository that you checkout. & \noindent SVN has one central repository – which makes it easier for managers to have more of a top down approach to control, security, permissions, mirrors, and dumps.                 \\
-        \hline
-    \end{tabularx}
-\end{table}
-In the end, both are great options. However, we will be using Git since the company already has a self-hosted GitLab instance that naturally uses Git.
-
-\subsection{Container management: Docker vs Podman}
-Although Docker is widely popular, Podman is also taking its share from the market. Especially on Red Hat systems.
-\begin{table}[H]
-    \renewcommand{\arraystretch}{1.5}%
-    \caption{Comparative study between Docker and Podman}
+    \caption{Comparative study between OpenAI GPT, Claude, and LiteLLM}
     \centering
     \medskip
     \begin{tabularx}{1\textwidth} {
@@ -69,17 +68,81 @@ Although Docker is widely popular, Podman is also taking its share from the mark
             | >{\hsize=1.15\hsize\linewidth=\hsize\justifying\arraybackslash}X
             | >{\hsize=1.15\hsize\linewidth=\hsize\justifying\arraybackslash}X |}
         \hline
-        \rowcolor{primary} \textbf {Aspect} & \textbf {Docker}                                                                                                                                                                                                                    & \textbf {Podman}                                                                                                                                                                      \\
+        \rowcolor{primary} \textbf {Provider} & \textbf {OpenAI GPT Models}                                                                                                               & \textbf {Claude (Anthropic)}                                                                                                        \\
         \hline
-        \textbf {Definition}                & \multicolumn{2}{|>{\hsize=2.35\hsize}X|} {Docker and Podman are both  container management technologies used to build container images and store said images in a registry to then run them as containers in a target environment.}                                                                                                                                                                                         \\
+        \textbf {Strengths}                   & \noindent Excellent at creative itinerary generation, wide knowledge base, and strong reasoning capabilities for complex travel planning. & \noindent Superior safety features, detailed explanations, and excellent at handling nuanced travel preferences and constraints.    \\
         \hline
-        \textbf {Technology}                & \noindent Docker uses the containerd daemon which does the pulling of images then hands over the creation process to a low-level runtime named runc.                                                                                & \noindent Podman uses a daemon-less approach using a technology named conmon which does the heavy lifting. It also delegates the container creation to a low-level container runtime. \\
+        \textbf {Use Case}                    & \noindent Ideal for generating diverse travel options, creative recommendations, and handling multi-destination complex itineraries.      & \noindent Perfect for detailed travel planning, safety considerations, and providing comprehensive travel advice with explanations. \\
         \hline
-        \textbf {Specificity}               & \noindent Docker Desktop is a great feature for Docker which provides an easy way to build and distribute containers amongst developers.                                                                                            & \noindent The smallest unit in Podman is the pod. A pod is the organizational unit for containers and is directly compatible with Kubernetes.                                         \\
+        \textbf {Integration}                 & \noindent Direct API integration with reliable performance and extensive documentation.                                                   & \noindent Clean API with focus on helpful, harmless, and honest responses ideal for travel recommendations.                         \\
         \hline
     \end{tabularx}
 \end{table}
-We can see the similarities between the two and in theory, it shouldn't really matter which one we choose since both Docker and Podman are inter-changeable.
+
+\subsection{LiteLLM Integration Approach}
+For Navoy's AI travel platform, I chose to implement LiteLLM as the primary integration solution. LiteLLM is a proxy service that provides a unified interface to access multiple LLM providers including OpenAI, Anthropic, Google, and others through a single API.
+
+The key advantages of using LiteLLM include enabling model switching without code changes, cost optimization through provider comparison, fallback mechanisms for reliability, and unified monitoring across all models. It serves as a simple drop-in replacement for OpenAI API calls while supporting load balancing, rate limiting, and providing comprehensive logging and analytics.
+
+This approach allows seamless access to both OpenAI's GPT models and Claude, providing flexibility to use the best model for specific tasks - GPT for creative itinerary generation and Claude for detailed travel advice - while maintaining a unified codebase and enabling cost optimization through intelligent model routing.
+
+% ----------------------- Comparative Analysis ----------------------- %
+\section{Comparative Analysis}
+In order to modernize Navoy's AI travel platform and implement proper DevSecOps practices, I need a wide range of tools that deal with the following areas: version control, container orchestration, infrastructure as code, and automated testing. For that, I conducted a comparative study on some of the tools the market provides.
+
+\subsection{Version Control: GitLab vs GitHub}
+Modern DevSecOps practices require robust version control systems with integrated CI/CD capabilities. Both GitLab and GitHub offer comprehensive DevOps platforms, but their approaches differ significantly.
+
+\begin{table}[H]
+    \renewcommand{\arraystretch}{1.5}%
+    \caption{Comparative study between GitLab and GitHub}
+    \centering
+    \medskip
+    \begin{tabularx}{1\textwidth} {
+            | >{\hsize=.7\hsize\linewidth=\hsize\centering\arraybackslash}X
+            | >{\hsize=1.15\hsize\linewidth=\hsize\justifying\arraybackslash}X
+            | >{\hsize=1.15\hsize\linewidth=\hsize\justifying\arraybackslash}X |}
+        \hline
+        \rowcolor{primary} \textbf {Aspect} & \textbf {GitLab}                                                                                             & \textbf {GitHub}                                                                                             \\
+        \hline
+        \textbf {DevSecOps Integration}     & \noindent Complete DevSecOps platform with built-in SAST, DAST, dependency scanning, and container scanning. & \noindent Requires third-party integrations and GitHub Actions for comprehensive security scanning.          \\
+        \hline
+        \textbf {CI/CD Capabilities}        & \noindent Built-in CI/CD with powerful pipelines, auto-scaling runners, and advanced caching.                & \noindent GitHub Actions provides flexible automation but requires more configuration for complex scenarios. \\
+        \hline
+        \textbf {Self-Hosting}              & \noindent Robust self-hosting with GitLab CE/EE, providing complete control over data and infrastructure.    & \noindent GitHub Enterprise Server offers limited self-hosting features.                                     \\
+        \hline
+    \end{tabularx}
+\end{table}
+
+For Navoy's platform, I chose GitLab due to its comprehensive DevSecOps capabilities, native security scanning integration, and the company's existing self-hosted GitLab instance. This choice provides complete control over sensitive travel data and enables seamless security integration throughout the development pipeline.
+
+\subsection{Infrastructure as Code: Terraform vs Pulumi}
+For managing cloud infrastructure programmatically, Infrastructure as Code (IaC) tools are essential. Both Terraform and Pulumi offer infrastructure provisioning capabilities but with different approaches.
+
+\begin{table}[H]
+    \renewcommand{\arraystretch}{1.5}%
+    \caption{Comparative study between Terraform and Pulumi}
+    \centering
+    \medskip
+    \begin{tabularx}{1\textwidth} {
+            | >{\hsize=.7\hsize\linewidth=\hsize\centering\arraybackslash}X
+            | >{\hsize=1.15\hsize\linewidth=\hsize\justifying\arraybackslash}X
+            | >{\hsize=1.15\hsize\linewidth=\hsize\justifying\arraybackslash}X |}
+        \hline
+        \rowcolor{primary} \textbf {Aspect} & \textbf {Terraform}                                                                                                    & \textbf {Pulumi}                                                                                               \\
+        \hline
+        \textbf {Language Support}          & \noindent Uses HCL (HashiCorp Configuration Language) specifically designed for infrastructure provisioning.           & \noindent Supports multiple programming languages including TypeScript, Python, Go, and C\#.                   \\
+        \hline
+        \textbf {State Management}          & \noindent Mature state management with remote backends, state locking, and collaborative workflows.                    & \noindent Uses state files with managed service for storage by default and additional cloud-based features.    \\
+        \hline
+        \textbf {Ecosystem \& Maturity}     & \noindent Larger ecosystem, extensive provider support, and widespread enterprise adoption. Industry standard for IaC. & \noindent Newer but growing rapidly with good provider support and unique testing frameworks.                  \\
+        \hline
+        \textbf {DevSecOps Integration}     & \noindent Integrates well with security scanning tools. Policy as code via Sentinel or Open Policy Agent.              & \noindent Native support for policy as code and testing frameworks with good development workflow integration. \\
+        \hline
+    \end{tabularx}
+\end{table}
+
+For Navoy's infrastructure needs, I chose Terraform due to its maturity, extensive provider ecosystem, and the team's existing familiarity with HCL. Terraform's robust state management and widespread industry adoption make it the ideal choice for managing the complex cloud infrastructure required for a scalable AI travel platform.
 
 \subsection{Deployment: Docker Swarm vs Kubernetes}
 The old deployment uses Docker Compose but that will not cut it anymore since it is not very optimized for production, especially on systems that need to scale later on as is the case here.
@@ -95,27 +158,54 @@ Our research leads us to choosing between either Docker Swarm or Kubernetes.
             | >{\hsize=1.15\hsize\linewidth=\hsize\justifying\arraybackslash}X
             | >{\hsize=1.15\hsize\linewidth=\hsize\justifying\arraybackslash}X |}
         \hline
-        \rowcolor{primary} \textbf {Aspect} & \textbf{Docker Swarm}                                                                                                                                                                                                                                                              & \textbf{Kubernetes}                                                      \\
+        \rowcolor{primary} \textbf {Aspect} & \textbf{Docker Swarm}                                                                                                                                                                                                                                                              & \textbf{Kubernetes}                                             \\
         \hline
-        \textbf {Overview}                  & \multicolumn{2}{|>{\hsize=2.35\hsize}X|} {Docker Swarm is a lightweight, easy-to-use orchestration tool with limited offerings compared to Kubernetes. In contrast, Kubernetes is complex but powerful and it provides self-healing and auto-scaling capabilities out of the box.}                                                                            \\
+        \textbf {Overview}                  & \multicolumn{2}{|>{\hsize=2.35\hsize}X|} {Docker Swarm is a lightweight, easy-to-use orchestration tool with limited offerings compared to Kubernetes. In contrast, Kubernetes is complex but powerful and it provides self-healing and auto-scaling capabilities out of the box.}                                                                   \\
         \hline
         \textbf {Advantages}                & \begin{itemize}[leftmargin=*, topsep=0pt, itemsep=1pt, parsep=2pt]
-            \item Straightforward to install
-            \item Takes less time to learn
-            \item Works with the Docker CLI
-        \end{itemize}                                                                                                                                                                                                                                                          & \begin{itemize}[leftmargin=*, topsep=0pt, itemsep=1pt, parsep=2pt]
-            \item Can sustain and manage large architectures and complex workloads
-            \item Has a self-healing capacity that supports automatic scaling.
-            \item Supports every operating system.
-            \item Has a large open-source community with Google's backup.
-            \item The most popular distributed system orchestrator in the world.
-        \end{itemize}                                                \\
+            \item Easy to install and learn
+            \item Works with Docker CLI
+        \end{itemize}                                                                                                                                                                                                                                                      & \begin{itemize}[leftmargin=*, topsep=0pt, itemsep=1pt, parsep=2pt]
+            \item Manages large architectures and complex workloads
+            \item Self-healing with automatic scaling
+            \item Cross-platform support
+            \item Large community with Google backing
+            \item Industry standard orchestrator
+        \end{itemize}                                   \\
         \hline
-        \textbf {Disadvantages}             & \noindent It has been abandoned by Docker Inc. and is no longer maintained.                                                                                                                                                                                                        & \noindent It has a steep learning curve and requires separate CLI tools. \\
+        \textbf {Disadvantages}             & \noindent Abandoned by Docker Inc. and no longer maintained.                                                                                                                                                                                                                       & \noindent Steep learning curve and requires separate CLI tools. \\
         \hline
     \end{tabularx}
 \end{table}
 Therefore, we will be deploying our application stack to Kubernetes since the potential is huge compared to the deprecated Docker Swarm.
+
+\subsection{Automated Testing: Jest vs Playwright}
+Automated testing is crucial for DevSecOps pipelines, ensuring code quality and preventing regressions. For Navoy's platform, both unit testing and end-to-end testing are essential.
+
+\begin{table}[H]
+    \renewcommand{\arraystretch}{1.5}%
+    \caption{Comparative study between Jest and Playwright}
+    \centering
+    \medskip
+    \begin{tabularx}{1\textwidth} {
+            | >{\hsize=.7\hsize\linewidth=\hsize\centering\arraybackslash}X
+            | >{\hsize=1.15\hsize\linewidth=\hsize\justifying\arraybackslash}X
+            | >{\hsize=1.15\hsize\linewidth=\hsize\justifying\arraybackslash}X |}
+        \hline
+        \rowcolor{primary} \textbf {Aspect} & \textbf {Jest}                                                                                                                          & \textbf {Playwright}                                                                                                       \\
+        \hline
+        \textbf {Testing Type}              & \noindent Unit testing framework for testing components, functions, and modules in isolation. Excels at business logic and API testing. & \noindent End-to-end testing framework supporting multiple browsers (Chromium, Firefox, WebKit) for cross-browser testing. \\
+        \hline
+        \textbf {Performance}               & \noindent Fast parallel test execution with built-in mocking and snapshot testing.                                                      & \noindent Fast and reliable with automatic waiting, parallel execution, and test isolation.                                \\
+        \hline
+        \textbf {DevSecOps Integration}     & \noindent Seamless CI/CD integration with coverage reports and build failure on threshold violations.                                   & \noindent Excellent CI/CD integration with Docker support and automatic screenshot/video capture on failures.              \\
+        \hline
+        \textbf {Browser Support}           & \noindent Focuses on unit testing, can use jsdom for DOM testing.                                                                       & \noindent Supports all modern browsers for comprehensive cross-browser testing.                                            \\
+        \hline
+    \end{tabularx}
+\end{table}
+
+For Navoy's platform, I chose to implement both Jest for comprehensive unit testing of microservices and business logic, and Playwright for end-to-end testing of critical user journeys like trip planning and booking flows. This combination ensures both code quality and user experience validation across multiple browsers.
 
 \subsection{Deployment management: Kubectl vs Helm}
 Since we're using Kubernetes, we have the option to deploy our microservices either with Kubectl or with Helm.
@@ -129,11 +219,11 @@ Since we're using Kubernetes, we have the option to deploy our microservices eit
             | >{\hsize=1.15\hsize\linewidth=\hsize\justifying\arraybackslash}X
             | >{\hsize=1.15\hsize\linewidth=\hsize\justifying\arraybackslash}X |}
         \hline
-        \rowcolor{primary} \textbf {Aspect} & \textbf{Kubectl}                                                                                                                                                                                                                     & \textbf{Helm}                                                                                                                                                                                                                                           \\
+        \rowcolor{primary} \textbf {Aspect} & \textbf{Kubectl}                                                                                                                            & \textbf{Helm}                                                                                                                              \\
         \hline
-        \textbf {Overview}                  & \noindent Kubectl is the official Kubernetes command-line tool that allows running commands against Kubernetes clusters.                                                                                                             & \noindent Helm -in a nutshell- is the package manager for Kubernetes.                                                                                                                                                                                   \\
+        \textbf {Overview}                  & \noindent Official Kubernetes command-line tool for running commands against clusters.                                                      & \noindent Package manager for Kubernetes applications.                                                                                     \\
         \hline
-        \textbf {In depth}                  & \noindent Kubectl can be used to deploy applications, inspect and manage cluster resources and also view logs. It also provides many other advanced functionality such as node tainting or setting up strategies for load balancing. & \noindent Helm helps in defining, installing and upgrading the most complex Kubernetes applications. Helm templates also provide a very clean way to avoid code duplication between similar resources in applications, such as services or deployments. \\
+        \textbf {Capabilities}              & \noindent Deploy applications, manage cluster resources, view logs, and advanced features like node tainting and load balancing strategies. & \noindent Define, install, and upgrade complex Kubernetes applications with templates to avoid code duplication between similar resources. \\
         \hline
     \end{tabularx}
 \end{table}
@@ -144,5 +234,8 @@ We also deemed it necessary to have some common configuration that we simply app
 \setcounter{secnumdepth}{0} % Set the section counter to 0 so next section is not counted in toc
 % ----------------------- Conclusion ----------------------- %
 \section{Conclusion}
-In this chapter, we discussed the main concepts relevant to our project such as web scraping, automation and DevOps.
-Then we talked about some of the tools in the market and discussed some of our choices.
+In this chapter, I discussed the main concepts relevant to modernizing Navoy's AI travel platform, particularly focusing on DevSecOps practices that integrate security throughout the development lifecycle. I explored container security, infrastructure as code security, and the importance of automated testing in maintaining code quality. Additionally, I examined AI technologies essential for trip generation, specifically Large Language Models and their integration approaches.
+
+I then conducted comparative studies between various tools in the market and explained my technology choices. For AI-powered trip generation, I selected LiteLLM as a universal proxy to access both OpenAI's GPT models and Claude, providing flexibility and cost optimization. For version control and CI/CD, I selected GitLab over GitHub due to its comprehensive built-in DevSecOps capabilities. For infrastructure as code, I chose Terraform over Pulumi for its maturity and extensive ecosystem. For container orchestration, Kubernetes was selected over Docker Swarm for its scalability and enterprise features. Finally, I chose a combination of Jest and Playwright for testing to ensure both unit test coverage and end-to-end user experience validation.
+
+These technology choices provide a solid foundation for implementing a secure, scalable, and maintainable microservices architecture for Navoy's AI travel platform.
