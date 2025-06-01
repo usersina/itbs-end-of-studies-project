@@ -42,25 +42,77 @@ jobs:
       - name: Verify file exists
         run: ls -la main-${{ github.sha }}.pdf
 
-      - name: Debug - Check folder ID length
-        run: echo "Folder ID length:" $(echo "${{ secrets.GOOGLE_DRIVE_FOLDER_ID }}" | wc -c)
-
-      - name: Debug - Verify credentials format
+      - name: Debug - Check credentials format
         run: |
-          echo "Checking if credentials contain required fields..."
-          echo "${{ secrets.GOOGLE_DRIVE_CREDENTIALS }}" | grep -q "client_email" && echo "✓ client_email found" || echo "✗ client_email missing"
-          echo "${{ secrets.GOOGLE_DRIVE_CREDENTIALS }}" | grep -q "private_key" && echo "✓ private_key found" || echo "✗ private_key missing"
+          echo "Checking credentials format..."
+          if echo "${{ secrets.GOOGLE_DRIVE_CREDENTIALS }}" | base64 -d > /dev/null 2>&1; then
+            echo "✓ Credentials are valid base64"
+            echo "${{ secrets.GOOGLE_DRIVE_CREDENTIALS }}" | base64 -d | jq -r '.client_email' | head -c 20
+            echo "... (service account email)"
+          else
+            echo "✗ Credentials are not valid base64"
+          fi
 
-      - name: Base64 encode credentials
+      - name: Debug - Check folder ID
         run: |
-          echo "${{ secrets.GOOGLE_DRIVE_CREDENTIALS }}" | base64 -w 0 > credentials.b64
-          echo "ENCODED_CREDENTIALS=$(cat credentials.b64)" >> $GITHUB_ENV
+          echo "Folder ID: ${{ secrets.GOOGLE_DRIVE_FOLDER_ID }}"
+          echo "Length: $(echo '${{ secrets.GOOGLE_DRIVE_FOLDER_ID }}' | wc -c)"
 
       - name: Upload to Google Drive
         uses: adityak74/google-drive-upload-git-action@main
         with:
-          credentials: ${{ env.ENCODED_CREDENTIALS }}
+          credentials: ${{ secrets.GOOGLE_DRIVE_CREDENTIALS }}
           filename: main-${{ github.sha }}.pdf
           folderId: ${{ secrets.GOOGLE_DRIVE_FOLDER_ID }}
           name: main-${{ github.sha }}.pdf
           overwrite: "true"
+        continue-on-error: true
+        id: upload
+
+      - name: Handle upload failure
+        if: steps.upload.outcome == 'failure'
+        run: |
+          echo "Upload failed. Common issues:"
+          echo "1. Service account email not shared with folder"
+          echo "2. Google Drive API not enabled for project"
+          echo "3. Incorrect folder ID"
+          echo "4. Service account lacks necessary permissions"
+          echo ""
+          echo "Please verify:"
+          echo "- Folder shared with service account: $(echo '${{ secrets.GOOGLE_DRIVE_CREDENTIALS }}' | base64 -d | jq -r '.client_email')"
+          echo "- Drive API enabled at: https://console.developers.google.com/apis/api/drive.googleapis.com/overview"
+          echo "- Folder ID is correct: ${{ secrets.GOOGLE_DRIVE_FOLDER_ID }}"
+          exit 1
+
+      - name: Alternative upload method (if main upload fails)
+        if: steps.upload.outcome == 'failure'
+        run: |
+          echo "Trying alternative upload method..."
+          # Decode credentials
+          echo '${{ secrets.GOOGLE_DRIVE_CREDENTIALS }}' | base64 -d > /tmp/credentials.json
+          
+          # Get access token
+          ACCESS_TOKEN=$(curl -s -X POST https://oauth2.googleapis.com/token \
+            -H "Content-Type: application/json" \
+            -d "{
+              \"grant_type\": \"urn:ietf:params:oauth:grant-type:jwt-bearer\",
+              \"assertion\": \"$(python3 -c \"
+import json, jwt, time
+with open('/tmp/credentials.json') as f:
+    creds = json.load(f)
+payload = {
+    'iss': creds['client_email'],
+    'scope': 'https://www.googleapis.com/auth/drive.file',
+    'aud': 'https://oauth2.googleapis.com/token',
+    'exp': int(time.time()) + 3600,
+    'iat': int(time.time())
+}
+print(jwt.encode(payload, creds['private_key'], algorithm='RS256'))
+              \")
+            }" | jq -r '.access_token')
+          
+          # Upload file
+          curl -X POST https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart \
+            -H "Authorization: Bearer $ACCESS_TOKEN" \
+            -F "metadata={\"name\":\"main-${{ github.sha }}.pdf\",\"parents\":[\"${{ secrets.GOOGLE_DRIVE_FOLDER_ID }}\"]};type=application/json;charset=UTF-8" \
+            -F "file=@main-${{ github.sha }}.pdf;type=application/pdf"
