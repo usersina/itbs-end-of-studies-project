@@ -37,6 +37,9 @@ jobs:
       - name: Rename PDF with commit hash
         run: mv main.pdf main-${{ github.sha }}.pdf
 
+      - name: Verify file exists
+        run: ls -la main-${{ github.sha }}.pdf
+
       - name: Upload to Google Drive
         uses: adityak74/google-drive-upload-git-action@main
         with:
@@ -44,4 +47,4 @@ jobs:
           filename: main-${{ github.sha }}.pdf
           folderId: ${{ secrets.GOOGLE_DRIVE_FOLDER_ID }}
           name: main-${{ github.sha }}.pdf
-          overwrite: "false"
+          overwrite: "true"
