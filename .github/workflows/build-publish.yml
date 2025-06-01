@@ -40,6 +40,15 @@ jobs:
       - name: Verify file exists
         run: ls -la main-${{ github.sha }}.pdf
 
+      - name: Debug - Check folder ID length
+        run: echo "Folder ID length:" $(echo "${{ secrets.GOOGLE_DRIVE_FOLDER_ID }}" | wc -c)
+
+      - name: Debug - Verify credentials format
+        run: |
+          echo "Checking if credentials contain required fields..."
+          echo "${{ secrets.GOOGLE_DRIVE_CREDENTIALS }}" | grep -q "client_email" && echo "✓ client_email found" || echo "✗ client_email missing"
+          echo "${{ secrets.GOOGLE_DRIVE_CREDENTIALS }}" | grep -q "private_key" && echo "✓ private_key found" || echo "✗ private_key missing"
+
       - name: Upload to Google Drive
         uses: adityak74/google-drive-upload-git-action@main
         with:
