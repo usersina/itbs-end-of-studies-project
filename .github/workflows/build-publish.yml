@@ -42,27 +42,64 @@ jobs:
       - name: Verify file exists
         run: ls -la main-${{ github.sha }}.pdf
 
-      - name: Debug - Check credentials format
-        run: |
-          echo "Checking credentials format..."
-          if echo "${{ secrets.GOOGLE_DRIVE_CREDENTIALS }}" | base64 -d > /dev/null 2>&1; then
-            echo "✓ Credentials are valid base64"
-            echo "${{ secrets.GOOGLE_DRIVE_CREDENTIALS }}" | base64 -d | jq -r '.client_email' | head -c 20
-            echo "... (service account email)"
-          else
-            echo "✗ Credentials are not valid base64"
-          fi
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
 
-      - name: Debug - Check folder ID
+      - name: Install Google Drive API dependencies
         run: |
-          echo "Folder ID: ${{ secrets.GOOGLE_DRIVE_FOLDER_ID }}"
-          echo "Length: $(echo '${{ secrets.GOOGLE_DRIVE_FOLDER_ID }}' | wc -c)"
+          pip install google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client
 
       - name: Upload to Google Drive
-        uses: adityak74/google-drive-upload-git-action@main
-        with:
-          credentials: ${{ secrets.GOOGLE_DRIVE_CREDENTIALS }}
-          filename: main-${{ github.sha }}.pdf
-          folderId: ${{ secrets.GOOGLE_DRIVE_FOLDER_ID }}
-          name: main-${{ github.sha }}.pdf
-          overwrite: "true"
+        run: |
+          cat > upload_to_drive.py << 'EOF'
+          import json
+          import os
+          from google.oauth2 import service_account
+          from googleapiclient.discovery import build
+          from googleapiclient.http import MediaFileUpload
+
+          # Load credentials from environment
+          creds_b64 = os.environ['GOOGLE_DRIVE_CREDENTIALS']
+          folder_id = os.environ['GOOGLE_DRIVE_FOLDER_ID']
+          filename = os.environ['FILENAME']
+
+          # Decode credentials
+          import base64
+          creds_json = base64.b64decode(creds_b64).decode('utf-8')
+          creds_info = json.loads(creds_json)
+
+          # Create credentials object
+          credentials = service_account.Credentials.from_service_account_info(
+              creds_info, scopes=['https://www.googleapis.com/auth/drive.file']
+          )
+
+          # Build the service
+          service = build('drive', 'v3', credentials=credentials)
+
+          # Upload file
+          file_metadata = {
+              'name': filename,
+              'parents': [folder_id]
+          }
+
+          media = MediaFileUpload(filename, mimetype='application/pdf')
+
+          try:
+              file = service.files().create(
+                  body=file_metadata,
+                  media_body=media,
+                  fields='id'
+              ).execute()
+              print(f'File uploaded successfully. File ID: {file.get("id")}')
+          except Exception as e:
+              print(f'Error uploading file: {str(e)}')
+              exit(1)
+          EOF
+
+          python upload_to_drive.py
+        env:
+          GOOGLE_DRIVE_CREDENTIALS: ${{ secrets.GOOGLE_DRIVE_CREDENTIALS }}
+          GOOGLE_DRIVE_FOLDER_ID: ${{ secrets.GOOGLE_DRIVE_FOLDER_ID }}
+          FILENAME: main-${{ github.sha }}.pdf
