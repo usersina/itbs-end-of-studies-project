@@ -5,8 +5,8 @@
 \setcounter{secnumdepth}{0} % Set the section counter to 0 so next section is not counted in toc
 % ----------------------- Introduction ----------------------- %
 \section{Introduction}
-This chapter presents and studies various concepts essential to modernizing Navoy's AI travel platform, including DevSecOps practices, microservices architecture, container orchestration, and infrastructure as code.
-I will discuss the most used tools in the market as well as which ones I settled on after making comparative studies to ensure the best fit for a scalable travel technology platform.
+This chapter presents and studies various concepts essential to modernizing Navoy's AI travel platform, with particular emphasis on network engineering principles, cloud infrastructure design, and network security practices.
+I will discuss the most used tools in the market as well as which ones I settled on after making comparative studies to ensure the best fit for a scalable, network-optimized travel technology platform across multiple cloud providers.
 
 \setcounter{secnumdepth}{2} % Resume counting the sections for the toc with a depth of 2 (Sections and sub-sections)
 % ----------------------------------- SECTIONS (v) ----------------------------------- %
@@ -85,6 +85,75 @@ For Navoy's AI travel platform, I chose to implement LiteLLM as the primary inte
 The key advantages of using LiteLLM include enabling model switching without code changes, cost optimization through provider comparison, fallback mechanisms for reliability, and unified monitoring across all models. It serves as a simple drop-in replacement for OpenAI API calls while supporting load balancing, rate limiting, and providing comprehensive logging and analytics.
 
 This approach allows seamless access to both OpenAI's GPT models and Claude, providing flexibility to use the best model for specific tasks - GPT for creative itinerary generation and Claude for detailed travel advice - while maintaining a unified codebase and enabling cost optimization through intelligent model routing.
+
+% ----------------------- Cloud Infrastructure and Network Architecture ----------------------- %
+\section{Cloud Infrastructure and Network Architecture}
+
+\subsection{Multi-Cloud Network Design}
+Modern travel platforms require robust, scalable network infrastructure that can handle global traffic patterns and ensure low-latency access to AI services. The network architecture must support microservices communication, secure data transmission, and efficient traffic routing across multiple cloud regions.
+
+For Navoy's AI travel platform, the network design encompasses VPC architecture, subnet segmentation, load balancing strategies, CDN implementation, and cross-cloud connectivity. This infrastructure supports both the distributed microservices architecture and the AI model serving requirements while maintaining security and performance standards.
+
+\subsection{Network Security and Compliance}
+Network security is paramount for travel platforms handling sensitive user data, payment information, and booking details. The architecture must implement defense-in-depth strategies including network segmentation, traffic encryption, DDoS protection, and compliance with international data protection regulations.
+
+The network security framework includes firewall configurations, security groups, network access control lists, VPN gateways for secure connectivity, and monitoring systems for threat detection and response. These components work together to create a comprehensive security posture that protects both infrastructure and application layers.
+
+\subsection{Cloud Providers: Azure vs AWS}
+For cloud infrastructure deployment, selecting the right provider and understanding their networking capabilities is crucial for optimal performance and cost management.
+
+\begin{table}[H]
+    \renewcommand{\arraystretch}{1.5}%
+    \caption{Comparative study between Microsoft Azure and Amazon AWS}
+    \centering
+    \medskip
+    \begin{tabularx}{1\textwidth} {
+            | >{\hsize=.7\hsize\linewidth=\hsize\centering\arraybackslash}X
+            | >{\hsize=1.15\hsize\linewidth=\hsize\justifying\arraybackslash}X
+            | >{\hsize=1.15\hsize\linewidth=\hsize\justifying\arraybackslash}X |}
+        \hline
+        \rowcolor{primary} \textbf {Aspect} & \textbf {Microsoft Azure}                                                                                                                      & \textbf {Amazon AWS}                                                                                                        \\
+        \hline
+        \textbf {Network Architecture}      & \noindent Virtual Networks (VNets) with advanced peering, ExpressRoute for hybrid connectivity, and Traffic Manager for global load balancing. & \noindent VPC with advanced routing, Direct Connect for dedicated connectivity, and Route 53 for DNS-based traffic routing. \\
+        \hline
+        \textbf {Global Infrastructure}     & \noindent 60+ regions with strong presence in Europe and integration with Microsoft ecosystem.                                                 & \noindent 80+ regions with extensive global coverage and mature edge locations for CDN services.                            \\
+        \hline
+        \textbf {Network Security}          & \noindent Azure Firewall, Network Security Groups, and DDoS Protection with integrated Microsoft security ecosystem.                           & \noindent Security Groups, NACLs, AWS WAF, and comprehensive DDoS protection with CloudFlare integration.                   \\
+        \hline
+        \textbf {Load Balancing}            & \noindent Application Gateway, Load Balancer, and Front Door for global load balancing with SSL termination.                                   & \noindent Application Load Balancer, Network Load Balancer, and CloudFront for global content delivery.                     \\
+        \hline
+        \textbf {Networking Costs}          & \noindent Competitive pricing for data transfer within regions, free ingress traffic.                                                          & \noindent Mature pricing model with reserved capacity options and data transfer optimization features.                      \\
+        \hline
+    \end{tabularx}
+\end{table}
+
+For Navoy's platform, I implemented a multi-cloud strategy utilizing both Azure and AWS to leverage the strengths of each provider. Azure provides excellent integration with development tools and cost-effective European operations, while AWS offers superior global reach and mature AI/ML services for the trip generation components.
+
+\subsection{Network Monitoring: Prometheus vs Azure Monitor vs CloudWatch}
+Network monitoring and observability are critical for maintaining the performance and reliability of distributed travel platforms across multiple cloud environments.
+
+\begin{table}[H]
+    \renewcommand{\arraystretch}{1.5}%
+    \caption{Comparative study of Network Monitoring Solutions}
+    \centering
+    \medskip
+    \begin{tabularx}{1\textwidth} {
+            | >{\hsize=.6\hsize\linewidth=\hsize\centering\arraybackslash}X
+            | >{\hsize=1.2\hsize\linewidth=\hsize\justifying\arraybackslash}X
+            | >{\hsize=1.2\hsize\linewidth=\hsize\justifying\arraybackslash}X |}
+        \hline
+        \rowcolor{primary} \textbf {Solution} & \textbf {Network Monitoring Capabilities}                                                                                                              & \textbf {Integration and Scalability}                                                                                   \\
+        \hline
+        \textbf {Prometheus}                  & \noindent Open-source metrics collection with custom network exporters, supports multi-cloud environments, and provides flexible querying with PromQL. & \noindent Excellent Kubernetes integration, supports federated monitoring across multiple clusters and cloud providers. \\
+        \hline
+        \textbf {Azure Monitor}               & \noindent Native Azure network monitoring with Network Watcher, VNet flow logs, and Application Gateway analytics.                                     & \noindent Deep integration with Azure services, supports hybrid monitoring with on-premises connectivity insights.      \\
+        \hline
+        \textbf {AWS CloudWatch}              & \noindent Comprehensive AWS network metrics, VPC Flow Logs analysis, and X-Ray for distributed tracing across network boundaries.                      & \noindent Native AWS integration, supports cross-region monitoring and custom network performance dashboards.           \\
+        \hline
+    \end{tabularx}
+\end{table}
+
+For Navoy's multi-cloud architecture, I implemented a hybrid monitoring approach using Prometheus for cross-cloud metrics aggregation, complemented by native cloud monitoring services for cloud-specific network insights and detailed traffic analysis.
 
 % ----------------------- Comparative Analysis ----------------------- %
 \section{Comparative Analysis}
@@ -234,8 +303,8 @@ We also deemed it necessary to have some common configuration that we simply app
 \setcounter{secnumdepth}{0} % Set the section counter to 0 so next section is not counted in toc
 % ----------------------- Conclusion ----------------------- %
 \section{Conclusion}
-In this chapter, I discussed the main concepts relevant to modernizing Navoy's AI travel platform, particularly focusing on DevSecOps practices that integrate security throughout the development lifecycle. I explored container security, infrastructure as code security, and the importance of automated testing in maintaining code quality. Additionally, I examined AI technologies essential for trip generation, specifically Large Language Models and their integration approaches.
+In this chapter, I discussed the main concepts relevant to modernizing Navoy's AI travel platform, with particular emphasis on network engineering principles, cloud infrastructure design, and multi-cloud networking strategies. I explored network security frameworks, traffic optimization, and the importance of robust monitoring in maintaining distributed systems performance.
 
-I then conducted comparative studies between various tools in the market and explained my technology choices. For AI-powered trip generation, I selected LiteLLM as a universal proxy to access both OpenAI's GPT models and Claude, providing flexibility and cost optimization. For version control and CI/CD, I selected GitLab over GitHub due to its comprehensive built-in DevSecOps capabilities. For infrastructure as code, I chose Terraform over Pulumi for its maturity and extensive ecosystem. For container orchestration, Kubernetes was selected over Docker Swarm for its scalability and enterprise features. Finally, I chose a combination of Jest and Playwright for testing to ensure both unit test coverage and end-to-end user experience validation.
+I then conducted comparative studies between various tools and cloud providers in the market and explained my technology choices. For cloud infrastructure, I selected a multi-cloud approach utilizing both Microsoft Azure and Amazon AWS to leverage optimal networking capabilities and regional presence. For network monitoring, I chose a hybrid approach with Prometheus for cross-cloud observability complemented by native cloud monitoring services. For AI-powered trip generation, I selected LiteLLM as a universal proxy to access both OpenAI's GPT models and Claude, providing flexibility and cost optimization. For version control and CI/CD, I selected GitLab over GitHub due to its comprehensive built-in DevSecOps capabilities. For infrastructure as code, I chose Terraform over Pulumi for its maturity and extensive multi-cloud support. For container orchestration, Kubernetes was selected for its advanced networking features and multi-cloud portability. Finally, I chose a combination of Jest and Playwright for testing to ensure both unit test coverage and end-to-end user experience validation.
 
-These technology choices provide a solid foundation for implementing a secure, scalable, and maintainable microservices architecture for Navoy's AI travel platform.
+These technology choices provide a solid foundation for implementing a secure, scalable, and network-optimized microservices architecture for Navoy's AI travel platform across multiple cloud environments.

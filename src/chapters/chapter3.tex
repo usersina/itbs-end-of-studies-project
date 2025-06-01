@@ -5,8 +5,9 @@
 \setcounter{secnumdepth}{0} % Set the section counter to 0 so next section is not counted in toc
 % ----------------------- Introduction ----------------------- %
 \section{Introduction}
-In this chapter, I analyze the various specifications and requirements of modernizing Navoy's AI travel platform from development to production.
-I describe the platform's main features, microservices architecture requirements, and the DevSecOps practices that must be implemented for the end result.
+In this chapter, I analyze the network architecture requirements and cloud infrastructure specifications for modernizing Navoy's AI travel platform. I focus on the network engineering aspects, multi-cloud deployment strategies, and the technical requirements for implementing a globally distributed, scalable travel platform.
+
+I describe the platform's network topology, cloud infrastructure requirements, inter-service communication patterns, and the network security measures that must be implemented across Azure and AWS environments for optimal performance and reliability.
 
 \setcounter{secnumdepth}{2} % Resume counting the sections for the toc with a depth of 2 (Sections and sub-sections)
 % ----------------------------------- SECTIONS (v) ----------------------------------- %
@@ -128,6 +129,94 @@ Here is an example of the textual description of one of the key use case scenari
         \hline
     \end{tabularx}
 \end{table}
+
+% ----------------------- Network Architecture Design ----------------------- %
+\section{Network Architecture Design}
+The network architecture for Navoy's AI travel platform requires a sophisticated multi-cloud design that ensures optimal performance, security, and scalability across different geographical regions.
+
+\subsection{Multi-Cloud Network Topology}
+The platform operates across both Azure and AWS clouds to leverage the strengths of each provider while ensuring redundancy and optimal regional coverage.
+
+\subsubsection*{\underline{Azure Network Architecture}}
+\begin{itemize}
+    \item \textbf{Virtual Network (VNet) Design:} Implemented hub-and-spoke topology with dedicated subnets for frontend services, backend microservices, databases, and management components
+    \item \textbf{ExpressRoute Connectivity:} Established dedicated private connections for hybrid cloud scenarios and enhanced security
+    \item \textbf{Azure Traffic Manager:} Configured for global load balancing and DNS-based traffic routing to ensure optimal user experience
+    \item \textbf{Network Security Groups:} Implemented layered security with application-specific rules and traffic filtering
+\end{itemize}
+
+\subsubsection*{\underline{AWS Network Architecture}}
+\begin{itemize}
+    \item \textbf{VPC Design:} Created multi-tier VPC architecture with public, private, and isolated subnets across multiple availability zones
+    \item \textbf{Direct Connect:} Implemented for consistent network performance and reduced data transfer costs
+    \item \textbf{Route 53:} Configured for intelligent DNS routing and health checks for service discovery
+    \item \textbf{Security Groups and NACLs:} Established defense-in-depth network security with stateful and stateless filtering
+\end{itemize}
+
+\subsubsection*{\underline{Inter-Cloud Connectivity}}
+\begin{itemize}
+    \item \textbf{VPN Gateways:} Configured site-to-site VPN connections between Azure and AWS for secure inter-cloud communication
+    \item \textbf{Hybrid DNS:} Implemented cross-cloud service discovery using Azure DNS Private Zones and AWS Route 53 Private Hosted Zones
+    \item \textbf{Traffic Optimization:} Designed routing policies to minimize cross-cloud traffic and reduce latency
+    \item \textbf{Data Synchronization:} Established secure channels for data replication and backup across cloud providers
+\end{itemize}
+
+\subsection{Load Balancing and Traffic Management}
+The platform implements sophisticated load balancing strategies to ensure optimal performance and high availability.
+
+\subsubsection*{\underline{Global Load Balancing}}
+\begin{itemize}
+    \item \textbf{Azure Front Door:} Configured for global HTTP/HTTPS load balancing with SSL termination and Web Application Firewall integration
+    \item \textbf{AWS CloudFront:} Implemented as CDN with intelligent edge routing for static content delivery and API acceleration
+    \item \textbf{Geographic Routing:} Configured routing policies to direct users to the nearest cloud region based on geographical location
+    \item \textbf{Health Monitoring:} Implemented comprehensive health checks and automatic failover mechanisms
+\end{itemize}
+
+\subsubsection*{\underline{Application Load Balancing}}
+\begin{itemize}
+    \item \textbf{Azure Application Gateway:} Deployed for Layer 7 load balancing with SSL offloading and URL-based routing
+    \item \textbf{AWS Application Load Balancer:} Configured for microservices routing with path-based and host-based routing rules
+    \item \textbf{Session Affinity:} Implemented sticky sessions for stateful applications while maintaining scalability
+    \item \textbf{Auto-scaling Integration:} Connected load balancers with auto-scaling groups for dynamic capacity management
+\end{itemize}
+
+\subsection{Network Security Architecture}
+Network security is implemented using a defense-in-depth approach across multiple layers.
+
+\subsubsection*{\underline{Perimeter Security}}
+\begin{itemize}
+    \item \textbf{Web Application Firewall:} Deployed Azure WAF and AWS WAF for application-layer protection against common attacks
+    \item \textbf{DDoS Protection:} Implemented Azure DDoS Protection Standard and AWS Shield Advanced for volumetric attack mitigation
+    \item \textbf{API Gateway Security:} Configured rate limiting, throttling, and authentication at the API gateway level
+    \item \textbf{CDN Security:} Enabled security features on CloudFront and Azure CDN for edge-level protection
+\end{itemize}
+
+\subsubsection*{\underline{Network Segmentation}}
+\begin{itemize}
+    \item \textbf{Micro-segmentation:} Implemented fine-grained network policies for container-to-container communication
+    \item \textbf{Zero Trust Architecture:} Designed network policies that verify every connection regardless of location
+    \item \textbf{Service Mesh Security:} Integrated Istio service mesh for encrypted service-to-service communication
+    \item \textbf{Database Network Isolation:} Configured private subnets and network ACLs for database tier protection
+\end{itemize}
+
+\subsection{Network Monitoring and Observability}
+Comprehensive network monitoring ensures optimal performance and security across the multi-cloud infrastructure.
+
+\subsubsection*{\underline{Traffic Analysis}}
+\begin{itemize}
+    \item \textbf{VPC Flow Logs:} Enabled detailed network traffic logging in both Azure and AWS for security analysis
+    \item \textbf{Network Performance Monitoring:} Implemented tools to track latency, throughput, and packet loss across regions
+    \item \textbf{Bandwidth Utilization:} Configured monitoring for data transfer costs and optimization opportunities
+    \item \textbf{Anomaly Detection:} Implemented ML-based network anomaly detection for proactive issue identification
+\end{itemize}
+
+\subsubsection*{\underline{Security Monitoring}}
+\begin{itemize}
+    \item \textbf{Intrusion Detection:} Deployed network-based IDS/IPS systems for threat detection
+    \item \textbf{Security Information and Event Management:} Integrated network logs with SIEM systems for correlation
+    \item \textbf{Compliance Monitoring:} Implemented continuous compliance checking for network security standards
+    \item \textbf{Incident Response:} Established automated response procedures for network security incidents
+\end{itemize}
 
 % ----------------------- Conception ----------------------- %
 \section{System Architecture and Technical Design}
