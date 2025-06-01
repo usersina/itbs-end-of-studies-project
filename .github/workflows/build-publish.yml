@@ -16,7 +16,7 @@ jobs:
           root_file: main.tex
 
       - name: Upload compiled artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: compiled
           path: main.pdf
