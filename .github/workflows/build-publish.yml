@@ -51,10 +51,15 @@ jobs:
           echo "${{ secrets.GOOGLE_DRIVE_CREDENTIALS }}" | grep -q "client_email" && echo "✓ client_email found" || echo "✗ client_email missing"
           echo "${{ secrets.GOOGLE_DRIVE_CREDENTIALS }}" | grep -q "private_key" && echo "✓ private_key found" || echo "✗ private_key missing"
 
+      - name: Base64 encode credentials
+        run: |
+          echo "${{ secrets.GOOGLE_DRIVE_CREDENTIALS }}" | base64 -w 0 > credentials.b64
+          echo "ENCODED_CREDENTIALS=$(cat credentials.b64)" >> $GITHUB_ENV
+
       - name: Upload to Google Drive
         uses: adityak74/google-drive-upload-git-action@main
         with:
-          credentials: ${{ secrets.GOOGLE_DRIVE_CREDENTIALS }}
+          credentials: ${{ env.ENCODED_CREDENTIALS }}
           filename: main-${{ github.sha }}.pdf
           folderId: ${{ secrets.GOOGLE_DRIVE_FOLDER_ID }}
           name: main-${{ github.sha }}.pdf
