@@ -99,36 +99,48 @@ The modernization of Navoy's AI travel platform requires implementing several co
 
 \subsubsection{\underline{Use case textual description}}
 Here is an example of the textual description of one of the key use case scenarios:
-\begin{table}[H]
-    \renewcommand{\arraystretch}{1.5}%
-    \caption{Generate AI Trip Itinerary use case textual description}
-    \centering
-    \medskip
-    \begin{tabularx}{1\textwidth} {
-            | >{\hsize=0.5\hsize\linewidth=\hsize\centering\arraybackslash}X
-            | >{\hsize=1.5\hsize\linewidth=\hsize\justifying\arraybackslash}X |}
-        \hline
-        \textbf {Use Case}         & \noindent Generate AI Trip Itinerary                                                                                                                                                            \\
-        \hline
-        \textbf {Actor}            & \noindent Travel Agent or End User.                                                                                                                                                             \\
-        \hline
-        \textbf {Pre-condition}    & \noindent Authenticated User with valid session.                                                                                                                                                \\
-        \hline
-        \textbf {Post-condition}   & \noindent Personalized trip itinerary generated and saved.                                                                                                                                      \\
-        \hline
-        \textbf {Basic path}       & \noindent    \begin{enumerate}
-            \item Navigate to trip planning page.
-            \item Enter travel preferences (destination, dates, budget, interests).
-            \item Select travel style and accommodation preferences.
-            \item Click "Generate AI Itinerary" button.
-            \item Review generated itinerary with AI recommendations.
-            \item Save or modify the generated trip plan.
-        \end{enumerate}                                                                                                                                                         \\
-        \hline
-        \textbf {Exceptional path} & \noindent If AI service is unavailable, display fallback message and offer manual trip planning options. If user preferences are incomplete, prompt for required information before proceeding. \\
-        \hline
-    \end{tabularx}
-\end{table}
+
+\renewcommand{\arraystretch}{1.5}%
+\begin{longtable}{| p{0.25\textwidth} | p{0.7\textwidth} |}
+    \caption{Generate AI Trip Itinerary use case textual description}                                                                                                                                                 \\
+    \hline
+    \textbf{Aspect}           & \textbf{Description}                                                                                                                                                                  \\
+    \hline
+    \endfirsthead
+
+    \multicolumn{2}{c}%
+    {{\bfseries \tablename\ \thetable{} -- continued from previous page}}                                                                                                                                             \\
+    \hline
+    \textbf{Aspect}           & \textbf{Description}                                                                                                                                                                  \\
+    \hline
+    \endhead
+
+    \hline \multicolumn{2}{|r|}{{Continued on next page}}                                                                                                                                                             \\
+    \endfoot
+
+    \hline
+    \endlastfoot
+
+    \textbf{Use Case}         & Generate AI Trip Itinerary                                                                                                                                                            \\
+    \hline
+    \textbf{Actor}            & Travel Agent or End User.                                                                                                                                                             \\
+    \hline
+    \textbf{Pre-condition}    & Authenticated User with valid session.                                                                                                                                                \\
+    \hline
+    \textbf{Post-condition}   & Personalized trip itinerary generated and saved.                                                                                                                                      \\
+    \hline
+    \textbf{Basic path}       & \begin{enumerate}
+        \item Navigate to trip planning page.
+        \item Enter travel preferences (destination, dates, budget, interests).
+        \item Select travel style and accommodation preferences.
+        \item Click "Generate AI Itinerary" button.
+        \item Review generated itinerary with AI recommendations.
+        \item Save or modify the generated trip plan.
+    \end{enumerate}                                                                                                                                                            \\
+    \hline
+    \textbf{Exceptional path} & If AI service is unavailable, display fallback message and offer manual trip planning options. If user preferences are incomplete, prompt for required information before proceeding. \\
+    \hline
+\end{longtable}
 
 % ----------------------- Network Architecture Design ----------------------- %
 \section{Network Architecture Design}
@@ -283,34 +295,42 @@ The platform follows a microservices architecture pattern with eight core servic
 \subsubsection*{\underline{Database Design Pattern}}
 The platform implements a "database per service" pattern to ensure service autonomy and data ownership:
 
-\begin{table}[H]
-    \renewcommand{\arraystretch}{1.3}
-    \caption{Service Database Allocation}
-    \centering
-    \medskip
-    \begin{tabularx}{1\textwidth} {
-            | >{\hsize=0.6\hsize\linewidth=\hsize\centering\arraybackslash}X
-            | >{\hsize=0.7\hsize\linewidth=\hsize\centering\arraybackslash}X
-            | >{\hsize=0.7\hsize\linewidth=\hsize\justifying\arraybackslash}X |}
-        \hline
-        \textbf{Service} & \textbf{Database} & \textbf{Data Types}                          \\
-        \hline
-        User Service     & PostgreSQL        & User profiles, organizations, roles          \\
-        \hline
-        Trip Generator   & MongoDB           & Trip documents, itineraries, preferences     \\
-        \hline
-        Travel Data Sync & MongoDB           & Synchronized travel data, external API cache \\
-        \hline
-        Billing Service  & PostgreSQL        & Subscriptions, invoices, usage metrics       \\
-        \hline
-        CMS Service      & PostgreSQL        & Content pages, media metadata                \\
-        \hline
-        Vector Store     & ChromaDB          & Embeddings, semantic search indices          \\
-        \hline
-        Gateway          & Redis             & Rate limiting, session cache, API metrics    \\
-        \hline
-    \end{tabularx}
-\end{table}
+\renewcommand{\arraystretch}{1.3}%
+\begin{longtable}{| p{0.25\textwidth} | p{0.25\textwidth} | p{0.45\textwidth} |}
+    \caption{Service Database Allocation}                                               \\
+    \hline
+    \textbf{Service} & \textbf{Database} & \textbf{Data Types}                          \\
+    \hline
+    \endfirsthead
+
+    \multicolumn{3}{c}%
+    {{\bfseries \tablename\ \thetable{} -- continued from previous page}}               \\
+    \hline
+    \textbf{Service} & \textbf{Database} & \textbf{Data Types}                          \\
+    \hline
+    \endhead
+
+    \hline \multicolumn{3}{|r|}{{Continued on next page}}                               \\
+    \endfoot
+
+    \hline
+    \endlastfoot
+
+    User Service     & PostgreSQL        & User profiles, organizations, roles          \\
+    \hline
+    Trip Generator   & MongoDB           & Trip documents, itineraries, preferences     \\
+    \hline
+    Travel Data Sync & MongoDB           & Synchronized travel data, external API cache \\
+    \hline
+    Billing Service  & PostgreSQL        & Subscriptions, invoices, usage metrics       \\
+    \hline
+    CMS Service      & PostgreSQL        & Content pages, media metadata                \\
+    \hline
+    Vector Store     & ChromaDB          & Embeddings, semantic search indices          \\
+    \hline
+    Gateway          & Redis             & Rate limiting, session cache, API metrics    \\
+    \hline
+\end{longtable}
 
 \subsubsection*{\underline{Inter-Service Communication Patterns}}
 

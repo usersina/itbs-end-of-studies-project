@@ -75,26 +75,34 @@ The choice of LLM provider and integration approach is crucial for maintaining b
 \subsection{AI Models: OpenAI GPT vs Claude}
 For AI-powered trip generation, selecting the right language model and integration approach is critical for delivering high-quality, personalized travel recommendations.
 
-\begin{table}[H]
-    \renewcommand{\arraystretch}{1.5}
-    \caption{Comparative study between OpenAI GPT, Claude, and LiteLLM}
-    \centering
-    \medskip
-    \begin{tabularx}{1\textwidth} {
-            | >{\hsize=.7\hsize\linewidth=\hsize\centering\arraybackslash}X
-            | >{\hsize=1.15\hsize\linewidth=\hsize\justifying\arraybackslash}X
-            | >{\hsize=1.15\hsize\linewidth=\hsize\justifying\arraybackslash}X |}
-        \hline
-        \rowcolor{primary} \textbf {Provider} & \textbf {OpenAI GPT Models}                                                                                                               & \textbf {Claude (Anthropic)}                                                                                                        \\
-        \hline
-        \textbf {Strengths}                   & \noindent Excellent at creative itinerary generation, wide knowledge base, and strong reasoning capabilities for complex travel planning. & \noindent Superior safety features, detailed explanations, and excellent at handling nuanced travel preferences and constraints.    \\
-        \hline
-        \textbf {Use Case}                    & \noindent Ideal for generating diverse travel options, creative recommendations, and handling multi-destination complex itineraries.      & \noindent Perfect for detailed travel planning, safety considerations, and providing comprehensive travel advice with explanations. \\
-        \hline
-        \textbf {Integration}                 & \noindent Direct API integration with reliable performance and extensive documentation.                                                   & \noindent Clean API with focus on helpful, harmless, and honest responses ideal for travel recommendations.                         \\
-        \hline
-    \end{tabularx}
-\end{table}
+\renewcommand{\arraystretch}{1.5}
+\begin{longtable}{| p{0.2\textwidth} | p{0.38\textwidth} | p{0.38\textwidth} |}
+    \caption{Comparative study between OpenAI GPT, Claude, and LiteLLM}                                                                                                                                                                                                                                \\
+    \hline
+    \rowcolor{primary} \textbf{Provider} & \textbf{OpenAI GPT Models}                                                                                                      & \textbf{Claude (Anthropic)}                                                                                               \\
+    \hline
+    \endfirsthead
+
+    \multicolumn{3}{c}%
+    {{\bfseries \tablename\ \thetable{} -- continued from previous page}}                                                                                                                                                                                                                              \\
+    \hline
+    \rowcolor{primary} \textbf{Provider} & \textbf{OpenAI GPT Models}                                                                                                      & \textbf{Claude (Anthropic)}                                                                                               \\
+    \hline
+    \endhead
+
+    \hline \multicolumn{3}{|r|}{{Continued on next page}}                                                                                                                                                                                                                                              \\
+    \endfoot
+
+    \hline
+    \endlastfoot
+
+    \textbf{Strengths}                   & Excellent at creative itinerary generation, wide knowledge base, and strong reasoning capabilities for complex travel planning. & Superior safety features, detailed explanations, and excellent at handling nuanced travel preferences and constraints.    \\
+    \hline
+    \textbf{Use Case}                    & Ideal for generating diverse travel options, creative recommendations, and handling multi-destination complex itineraries.      & Perfect for detailed travel planning, safety considerations, and providing comprehensive travel advice with explanations. \\
+    \hline
+    \textbf{Integration}                 & Direct API integration with reliable performance and extensive documentation.                                                   & Clean API with focus on helpful, harmless, and honest responses ideal for travel recommendations.                         \\
+    \hline
+\end{longtable}
 
 \subsection{LiteLLM Integration Approach}
 \begin{figure}[H]
@@ -126,56 +134,72 @@ The network security framework includes firewall configurations, security groups
 \subsection{Cloud Providers: Azure vs AWS}
 For cloud infrastructure deployment, selecting the right provider and understanding their networking capabilities is crucial for optimal performance and cost management.
 
-\begin{table}[H]
-    \renewcommand{\arraystretch}{1.5}%
-    \caption{Comparative study between Microsoft Azure and Amazon AWS}
-    \centering
-    \medskip
-    \begin{tabularx}{1\textwidth} {
-            | >{\hsize=.7\hsize\linewidth=\hsize\centering\arraybackslash}X
-            | >{\hsize=1.15\hsize\linewidth=\hsize\justifying\arraybackslash}X
-            | >{\hsize=1.15\hsize\linewidth=\hsize\justifying\arraybackslash}X |}
-        \hline
-        \rowcolor{primary} \textbf {Aspect} & \textbf {Microsoft Azure}                                                                                                                      & \textbf {Amazon AWS}                                                                                                        \\
-        \hline
-        \textbf {Network Architecture}      & \noindent Virtual Networks (VNets) with advanced peering, ExpressRoute for hybrid connectivity, and Traffic Manager for global load balancing. & \noindent VPC with advanced routing, Direct Connect for dedicated connectivity, and Route 53 for DNS-based traffic routing. \\
-        \hline
-        \textbf {Global Infrastructure}     & \noindent 60+ regions with strong presence in Europe and integration with Microsoft ecosystem.                                                 & \noindent 80+ regions with extensive global coverage and mature edge locations for CDN services.                            \\
-        \hline
-        \textbf {Network Security}          & \noindent Azure Firewall, Network Security Groups, and DDoS Protection with integrated Microsoft security ecosystem.                           & \noindent Security Groups, NACLs, AWS WAF, and comprehensive DDoS protection with CloudFlare integration.                   \\
-        \hline
-        \textbf {Load Balancing}            & \noindent Application Gateway, Load Balancer, and Front Door for global load balancing with SSL termination.                                   & \noindent Application Load Balancer, Network Load Balancer, and CloudFront for global content delivery.                     \\
-        \hline
-        \textbf {Networking Costs}          & \noindent Competitive pricing for data transfer within regions, free ingress traffic.                                                          & \noindent Mature pricing model with reserved capacity options and data transfer optimization features.                      \\
-        \hline
-    \end{tabularx}
-\end{table}
+\renewcommand{\arraystretch}{1.5}%
+\begin{longtable}{| p{0.2\textwidth} | p{0.38\textwidth} | p{0.38\textwidth} |}
+    \caption{Comparative study between Microsoft Azure and Amazon AWS}                                                                                                                                                                                                                            \\
+    \hline
+    \rowcolor{primary} \textbf{Aspect} & \textbf{Microsoft Azure}                                                                                                             & \textbf{Amazon AWS}                                                                                               \\
+    \hline
+    \endfirsthead
+
+    \multicolumn{3}{c}%
+    {{\bfseries \tablename\ \thetable{} -- continued from previous page}}                                                                                                                                                                                                                         \\
+    \hline
+    \rowcolor{primary} \textbf{Aspect} & \textbf{Microsoft Azure}                                                                                                             & \textbf{Amazon AWS}                                                                                               \\
+    \hline
+    \endhead
+
+    \hline \multicolumn{3}{|r|}{{Continued on next page}}                                                                                                                                                                                                                                         \\
+    \endfoot
+
+    \hline
+    \endlastfoot
+
+    \textbf{Network Architecture}      & Virtual Networks (VNets) with advanced peering, ExpressRoute for hybrid connectivity, and Traffic Manager for global load balancing. & VPC with advanced routing, Direct Connect for dedicated connectivity, and Route 53 for DNS-based traffic routing. \\
+    \hline
+    \textbf{Global Infrastructure}     & 60+ regions with strong presence in Europe and integration with Microsoft ecosystem.                                                 & 80+ regions with extensive global coverage and mature edge locations for CDN services.                            \\
+    \hline
+    \textbf{Network Security}          & Azure Firewall, Network Security Groups, and DDoS Protection with integrated Microsoft security ecosystem.                           & Security Groups, NACLs, AWS WAF, and comprehensive DDoS protection with CloudFlare integration.                   \\
+    \hline
+    \textbf{Load Balancing}            & Application Gateway, Load Balancer, and Front Door for global load balancing with SSL termination.                                   & Application Load Balancer, Network Load Balancer, and CloudFront for global content delivery.                     \\
+    \hline
+    \textbf{Networking Costs}          & Competitive pricing for data transfer within regions, free ingress traffic.                                                          & Mature pricing model with reserved capacity options and data transfer optimization features.                      \\
+    \hline
+\end{longtable}
 
 For Navoy's platform, I implemented a multi-cloud strategy utilizing both Azure and AWS to leverage the strengths of each provider. Azure provides excellent integration with development tools and cost-effective European operations, while AWS offers superior global reach and mature AI/ML services for the trip generation components.
 
 \subsection{Network Monitoring: Prometheus vs Azure Monitor vs CloudWatch}
 Network monitoring and observability are critical for maintaining the performance and reliability of distributed travel platforms across multiple cloud environments.
 
-\begin{table}[H]
-    \renewcommand{\arraystretch}{1.5}%
-    \caption{Comparative study of Network Monitoring Solutions}
-    \centering
-    \medskip
-    \begin{tabularx}{1\textwidth} {
-            | >{\hsize=.6\hsize\linewidth=\hsize\centering\arraybackslash}X
-            | >{\hsize=1.2\hsize\linewidth=\hsize\justifying\arraybackslash}X
-            | >{\hsize=1.2\hsize\linewidth=\hsize\justifying\arraybackslash}X |}
-        \hline
-        \rowcolor{primary} \textbf {Solution} & \textbf {Network Monitoring Capabilities}                                                                                                              & \textbf {Integration and Scalability}                                                                                   \\
-        \hline
-        \textbf {Prometheus}                  & \noindent Open-source metrics collection with custom network exporters, supports multi-cloud environments, and provides flexible querying with PromQL. & \noindent Excellent Kubernetes integration, supports federated monitoring across multiple clusters and cloud providers. \\
-        \hline
-        \textbf {Azure Monitor}               & \noindent Native Azure network monitoring with Network Watcher, VNet flow logs, and Application Gateway analytics.                                     & \noindent Deep integration with Azure services, supports hybrid monitoring with on-premises connectivity insights.      \\
-        \hline
-        \textbf {AWS CloudWatch}              & \noindent Comprehensive AWS network metrics, VPC Flow Logs analysis, and X-Ray for distributed tracing across network boundaries.                      & \noindent Native AWS integration, supports cross-region monitoring and custom network performance dashboards.           \\
-        \hline
-    \end{tabularx}
-\end{table}
+\renewcommand{\arraystretch}{1.5}%
+\begin{longtable}{| p{0.2\textwidth} | p{0.38\textwidth} | p{0.38\textwidth} |}
+    \caption{Comparative study of Network Monitoring Solutions}                                                                                                                                                                                                                                         \\
+    \hline
+    \rowcolor{primary} \textbf{Solution} & \textbf{Network Monitoring Capabilities}                                                                                                     & \textbf{Integration and Scalability}                                                                          \\
+    \hline
+    \endfirsthead
+
+    \multicolumn{3}{c}%
+    {{\bfseries \tablename\ \thetable{} -- continued from previous page}}                                                                                                                                                                                                                               \\
+    \hline
+    \rowcolor{primary} \textbf{Solution} & \textbf{Network Monitoring Capabilities}                                                                                                     & \textbf{Integration and Scalability}                                                                          \\
+    \hline
+    \endhead
+
+    \hline \multicolumn{3}{|r|}{{Continued on next page}}                                                                                                                                                                                                                                               \\
+    \endfoot
+
+    \hline
+    \endlastfoot
+
+    \textbf{Prometheus}                  & Open-source metrics collection with custom network exporters, supports multi-cloud environments, and provides flexible querying with PromQL. & Excellent Kubernetes integration, supports federated monitoring across multiple clusters and cloud providers. \\
+    \hline
+    \textbf{Azure Monitor}               & Native Azure network monitoring with Network Watcher, VNet flow logs, and Application Gateway analytics.                                     & Deep integration with Azure services, supports hybrid monitoring with on-premises connectivity insights.      \\
+    \hline
+    \textbf{AWS CloudWatch}              & Comprehensive AWS network metrics, VPC Flow Logs analysis, and X-Ray for distributed tracing across network boundaries.                      & Native AWS integration, supports cross-region monitoring and custom network performance dashboards.           \\
+    \hline
+\end{longtable}
 
 For Navoy's multi-cloud architecture, I implemented a hybrid monitoring approach using Prometheus for cross-cloud metrics aggregation, complemented by native cloud monitoring services for cloud-specific network insights and detailed traffic analysis.
 
@@ -188,28 +212,36 @@ Modern DevSecOps relies on robust version control for collaboration and code man
 
 The table below compares their version control and DevSecOps integration:
 
-\begin{table}[H]
-    \renewcommand{\arraystretch}{1.5}%
-    \caption{Comparative study between GitLab and GitHub}
-    \centering
-    \medskip
-    \begin{tabularx}{1\textwidth} {
-            | >{\hsize=.7\hsize\linewidth=\hsize\centering\arraybackslash}X
-            | >{\hsize=1.15\hsize\linewidth=\hsize\justifying\arraybackslash}X
-            | >{\hsize=1.15\hsize\linewidth=\hsize\justifying\arraybackslash}X |}
-        \hline
-        \rowcolor{primary} \textbf {Aspect} & \textbf {GitLab}                                                                                                      & \textbf {GitHub}                                                                                             \\
-        \hline
-        \textbf {Version Control Features}  & \noindent Distributed version control with Git, merge requests, integrated code review, and granular access controls. & \noindent Distributed version control with Git, pull requests, code review, and fine-grained permissions.    \\
-        \hline
-        \textbf {DevSecOps Integration}     & \noindent Complete DevSecOps platform with built-in SAST, DAST, dependency scanning, and container scanning.          & \noindent Requires third-party integrations and GitHub Actions for comprehensive security scanning.          \\
-        \hline
-        \textbf {CI/CD Capabilities}        & \noindent Built-in CI/CD with powerful pipelines, auto-scaling runners, and advanced caching.                         & \noindent GitHub Actions provides flexible automation but requires more configuration for complex scenarios. \\
-        \hline
-        \textbf {Self-Hosting}              & \noindent Robust self-hosting with GitLab CE/EE, providing complete control over data and infrastructure.             & \noindent GitHub Enterprise Server offers limited self-hosting features.                                     \\
-        \hline
-    \end{tabularx}
-\end{table}
+\renewcommand{\arraystretch}{1.5}%
+\begin{longtable}{| p{0.2\textwidth} | p{0.38\textwidth} | p{0.38\textwidth} |}
+    \caption{Comparative study between GitLab and GitHub}                                                                                                                                                                                                 \\
+    \hline
+    \rowcolor{primary} \textbf{Aspect} & \textbf{GitLab}                                                                                             & \textbf{GitHub}                                                                                    \\
+    \hline
+    \endfirsthead
+
+    \multicolumn{3}{c}%
+    {{\bfseries \tablename\ \thetable{} -- continued from previous page}}                                                                                                                                                                                 \\
+    \hline
+    \rowcolor{primary} \textbf{Aspect} & \textbf{GitLab}                                                                                             & \textbf{GitHub}                                                                                    \\
+    \hline
+    \endhead
+
+    \hline \multicolumn{3}{|r|}{{Continued on next page}}                                                                                                                                                                                                 \\
+    \endfoot
+
+    \hline
+    \endlastfoot
+
+    \textbf{Version Control Features}  & Distributed version control with Git, merge requests, integrated code review, and granular access controls. & Distributed version control with Git, pull requests, code review, and fine-grained permissions.    \\
+    \hline
+    \textbf{DevSecOps Integration}     & Complete DevSecOps platform with built-in SAST, DAST, dependency scanning, and container scanning.          & Requires third-party integrations and GitHub Actions for comprehensive security scanning.          \\
+    \hline
+    \textbf{CI/CD Capabilities}        & Built-in CI/CD with powerful pipelines, auto-scaling runners, and advanced caching.                         & GitHub Actions provides flexible automation but requires more configuration for complex scenarios. \\
+    \hline
+    \textbf{Self-Hosting}              & Robust self-hosting with GitLab CE/EE, providing complete control over data and infrastructure.             & GitHub Enterprise Server offers limited self-hosting features.                                     \\
+    \hline
+\end{longtable}
 
 Both platforms excel at version control, but GitLab stands out for its built-in DevSecOps and CI/CD, while GitHub relies more on third-party tools and Actions for automation and security.
 
@@ -218,28 +250,36 @@ For Navoy's platform, I chose GitLab for its integrated security, DevSecOps feat
 \subsection{Infrastructure as Code: Terraform vs Pulumi}
 Terraform and Pulumi are leading tools for managing cloud infrastructure programmatically. While both enable infrastructure provisioning, they differ in language support, ecosystem maturity, and workflow integration.
 
-\begin{table}[H]
-    \renewcommand{\arraystretch}{1.5}
-    \caption{Comparative study between Terraform and Pulumi}
-    \centering
-    \medskip
-    \begin{tabularx}{1\textwidth} {
-            | >{\hsize=.7\hsize\linewidth=\hsize\centering\arraybackslash}X
-            | >{\hsize=1.15\hsize\linewidth=\hsize\justifying\arraybackslash}X
-            | >{\hsize=1.15\hsize\linewidth=\hsize\justifying\arraybackslash}X |}
-        \hline
-        \rowcolor{primary} \textbf {Aspect} & \textbf {Terraform}                                                                                                    & \textbf {Pulumi}                                                                                               \\
-        \hline
-        \textbf {Language Support}          & \noindent Uses HCL (HashiCorp Configuration Language) specifically designed for infrastructure provisioning.           & \noindent Supports multiple programming languages including TypeScript, Python, Go, and C\#.                   \\
-        \hline
-        \textbf {State Management}          & \noindent Mature state management with remote backends, state locking, and collaborative workflows.                    & \noindent Uses state files with managed service for storage by default and additional cloud-based features.    \\
-        \hline
-        \textbf {Ecosystem \& Maturity}     & \noindent Larger ecosystem, extensive provider support, and widespread enterprise adoption. Industry standard for IaC. & \noindent Newer but growing rapidly with good provider support and unique testing frameworks.                  \\
-        \hline
-        \textbf {DevSecOps Integration}     & \noindent Integrates well with security scanning tools. Policy as code via Sentinel or Open Policy Agent.              & \noindent Native support for policy as code and testing frameworks with good development workflow integration. \\
-        \hline
-    \end{tabularx}
-\end{table}
+\renewcommand{\arraystretch}{1.5}%
+\begin{longtable}{| p{0.2\textwidth} | p{0.38\textwidth} | p{0.38\textwidth} |}
+    \caption{Comparative study between Terraform and Pulumi}                                                                                                                                                                                                 \\
+    \hline
+    \rowcolor{primary} \textbf{Aspect} & \textbf{Terraform}                                                                                           & \textbf{Pulumi}                                                                                      \\
+    \hline
+    \endfirsthead
+
+    \multicolumn{3}{c}%
+    {{\bfseries \tablename\ \thetable{} -- continued from previous page}}                                                                                                                                                                                    \\
+    \hline
+    \rowcolor{primary} \textbf{Aspect} & \textbf{Terraform}                                                                                           & \textbf{Pulumi}                                                                                      \\
+    \hline
+    \endhead
+
+    \hline \multicolumn{3}{|r|}{{Continued on next page}}                                                                                                                                                                                                    \\
+    \endfoot
+
+    \hline
+    \endlastfoot
+
+    \textbf{Language Support}          & Uses HCL (HashiCorp Configuration Language) specifically designed for infrastructure provisioning.           & Supports multiple programming languages including TypeScript, Python, Go, and C\#.                   \\
+    \hline
+    \textbf{State Management}          & Mature state management with remote backends, state locking, and collaborative workflows.                    & Uses state files with managed service for storage by default and additional cloud-based features.    \\
+    \hline
+    \textbf{Ecosystem \& Maturity}     & Larger ecosystem, extensive provider support, and widespread enterprise adoption. Industry standard for IaC. & Newer but growing rapidly with good provider support and unique testing frameworks.                  \\
+    \hline
+    \textbf{DevSecOps Integration}     & Integrates well with security scanning tools. Policy as code via Sentinel or Open Policy Agent.              & Native support for policy as code and testing frameworks with good development workflow integration. \\
+    \hline
+\end{longtable}
 
 For Navoy's infrastructure, I chose Terraform due to its maturity, provider ecosystem, and the team's familiarity with HCL. Its robust state management and industry adoption make it ideal for managing complex, scalable cloud environments.
 
@@ -253,85 +293,110 @@ For production, container orchestration is essential. Tools like Kubernetes and 
 Our research led us to compare Docker Swarm and Kubernetes.
 
 \subsubsection*{Docker Swarm vs Kubernetes}
-\begin{table}[H]
-    \renewcommand{\arraystretch}{1.5}
-    \caption{Comparative study between Docker Swarm and Kubernetes}
-    \centering
-    \medskip
-    \begin{tabularx}{1\textwidth} {
-            | >{\hsize=.7\hsize\linewidth=\hsize\centering\arraybackslash}X
-            | >{\hsize=1.15\hsize\linewidth=\hsize\justifying\arraybackslash}X
-            | >{\hsize=1.15\hsize\linewidth=\hsize\justifying\arraybackslash}X |}
-        \hline
-        \rowcolor{primary} \textbf {Aspect} & \textbf{Docker Swarm}                                                                                                                                                                                                                                                              & \textbf{Kubernetes}                                             \\
-        \hline
-        \textbf {Overview}                  & \multicolumn{2}{|>{\hsize=2.35\hsize}X|} {Docker Swarm is a lightweight, easy-to-use orchestration tool with limited offerings compared to Kubernetes. In contrast, Kubernetes is complex but powerful and it provides self-healing and auto-scaling capabilities out of the box.}                                                                   \\
-        \hline
-        \textbf {Advantages}                & \begin{itemize}[leftmargin=*, topsep=0pt, itemsep=1pt, parsep=2pt]
-            \item Easy to install and learn
-            \item Works with Docker CLI
-        \end{itemize}                                                                                                                                                                                                                                                      & \begin{itemize}[leftmargin=*, topsep=0pt, itemsep=1pt, parsep=2pt]
-            \item Manages large architectures and complex workloads
-            \item Self-healing with automatic scaling
-            \item Cross-platform support
-            \item Large community with Google backing
-            \item Industry standard orchestrator
-        \end{itemize}                                  \\
-        \hline
-        \textbf {Disadvantages}             & \noindent Abandoned by Docker Inc. and no longer maintained.                                                                                                                                                                                                                       & \noindent Steep learning curve and requires separate CLI tools. \\
-        \hline
-    \end{tabularx}
-\end{table}
+\renewcommand{\arraystretch}{1.5}%
+\begin{longtable}{| p{0.2\textwidth} | p{0.38\textwidth} | p{0.38\textwidth} |}
+    \caption{Comparative study between Docker Swarm and Kubernetes}                                                                                                                                                                                                                                                                                                           \\
+    \hline
+    \rowcolor{primary} \textbf{Aspect} & \textbf{Docker Swarm}                                                                                                                                                                                                                                                        & \textbf{Kubernetes}                                   \\
+    \hline
+    \endfirsthead
+
+    \multicolumn{3}{c}%
+    {{\bfseries \tablename\ \thetable{} -- continued from previous page}}                                                                                                                                                                                                                                                                                                     \\
+    \hline
+    \rowcolor{primary} \textbf{Aspect} & \textbf{Docker Swarm}                                                                                                                                                                                                                                                        & \textbf{Kubernetes}                                   \\
+    \hline
+    \endhead
+
+    \hline \multicolumn{3}{|r|}{{Continued on next page}}                                                                                                                                                                                                                                                                                                                     \\
+    \endfoot
+
+    \hline
+    \endlastfoot
+
+    \textbf{Overview}                  & \multicolumn{2}{p{0.76\textwidth}|}{Docker Swarm is a lightweight, easy-to-use orchestration tool with limited offerings compared to Kubernetes. In contrast, Kubernetes is complex but powerful and it provides self-healing and auto-scaling capabilities out of the box.}                                                         \\
+    \hline
+    \textbf{Advantages}                & \begin{itemize}[leftmargin=*, topsep=0pt, itemsep=1pt, parsep=2pt]
+        \item Easy to install and learn
+        \item Works with Docker CLI
+    \end{itemize}                                                                                                                                                                                                                                                & \begin{itemize}[leftmargin=*, topsep=0pt, itemsep=1pt, parsep=2pt]
+        \item Manages large architectures and complex workloads
+        \item Self-healing with automatic scaling
+        \item Cross-platform support
+        \item Large community with Google backing
+        \item Industry standard orchestrator
+    \end{itemize}                        \\
+    \hline
+    \textbf{Disadvantages}             & Abandoned by Docker Inc. and no longer maintained.                                                                                                                                                                                                                           & Steep learning curve and requires separate CLI tools. \\
+    \hline
+\end{longtable}
 Therefore, we will be deploying our application stack to Kubernetes since the potential is huge compared to the deprecated Docker Swarm.
 
 \subsection{Automated Testing: Jest vs Playwright}
 Automated testing is crucial for DevSecOps pipelines, ensuring code quality and preventing regressions. For Navoy's platform, both unit testing and end-to-end testing are essential.
 
-\begin{table}[H]
-    \renewcommand{\arraystretch}{1.5}
-    \caption{Comparative study between Jest and Playwright}
-    \centering
-    \medskip
-    \begin{tabularx}{1\textwidth} {
-            | >{\hsize=.7\hsize\linewidth=\hsize\centering\arraybackslash}X
-            | >{\hsize=1.15\hsize\linewidth=\hsize\justifying\arraybackslash}X
-            | >{\hsize=1.15\hsize\linewidth=\hsize\justifying\arraybackslash}X |}
-        \hline
-        \rowcolor{primary} \textbf {Aspect} & \textbf {Jest}                                                                                                                          & \textbf {Playwright}                                                                                                       \\
-        \hline
-        \textbf {Testing Type}              & \noindent Unit testing framework for testing components, functions, and modules in isolation. Excels at business logic and API testing. & \noindent End-to-end testing framework supporting multiple browsers (Chromium, Firefox, WebKit) for cross-browser testing. \\
-        \hline
-        \textbf {Performance}               & \noindent Fast parallel test execution with built-in mocking and snapshot testing.                                                      & \noindent Fast and reliable with automatic waiting, parallel execution, and test isolation.                                \\
-        \hline
-        \textbf {DevSecOps Integration}     & \noindent Seamless CI/CD integration with coverage reports and build failure on threshold violations.                                   & \noindent Excellent CI/CD integration with Docker support and automatic screenshot/video capture on failures.              \\
-        \hline
-        \textbf {Browser Support}           & \noindent Focuses on unit testing, can use jsdom for DOM testing.                                                                       & \noindent Supports all modern browsers for comprehensive cross-browser testing.                                            \\
-        \hline
-    \end{tabularx}
-\end{table}
+\renewcommand{\arraystretch}{1.5}%
+\begin{longtable}{| p{0.2\textwidth} | p{0.38\textwidth} | p{0.38\textwidth} |}
+    \caption{Comparative study between Jest and Playwright}                                                                                                                                                                                                                               \\
+    \hline
+    \rowcolor{primary} \textbf{Aspect} & \textbf{Jest}                                                                                                                 & \textbf{Playwright}                                                                                              \\
+    \hline
+    \endfirsthead
+
+    \multicolumn{3}{c}%
+    {{\bfseries \tablename\ \thetable{} -- continued from previous page}}                                                                                                                                                                                                                 \\
+    \hline
+    \rowcolor{primary} \textbf{Aspect} & \textbf{Jest}                                                                                                                 & \textbf{Playwright}                                                                                              \\
+    \hline
+    \endhead
+
+    \hline \multicolumn{3}{|r|}{{Continued on next page}}                                                                                                                                                                                                                                 \\
+    \endfoot
+
+    \hline
+    \endlastfoot
+
+    \textbf{Testing Type}              & Unit testing framework for testing components, functions, and modules in isolation. Excels at business logic and API testing. & End-to-end testing framework supporting multiple browsers (Chromium, Firefox, WebKit) for cross-browser testing. \\
+    \hline
+    \textbf{Performance}               & Fast parallel test execution with built-in mocking and snapshot testing.                                                      & Fast and reliable with automatic waiting, parallel execution, and test isolation.                                \\
+    \hline
+    \textbf{DevSecOps Integration}     & Seamless CI/CD integration with coverage reports and build failure on threshold violations.                                   & Excellent CI/CD integration with Docker support and automatic screenshot/video capture on failures.              \\
+    \hline
+    \textbf{Browser Support}           & Focuses on unit testing, can use jsdom for DOM testing.                                                                       & Supports all modern browsers for comprehensive cross-browser testing.                                            \\
+    \hline
+\end{longtable}
 
 For Navoy's platform, I chose to implement both Jest for comprehensive unit testing of microservices and business logic, and Playwright for end-to-end testing of critical user journeys like trip planning and booking flows. This combination ensures both code quality and user experience validation across multiple browsers.
 
 \subsection{Deployment management: Kubectl vs Helm}
 Since we're using Kubernetes, we have the option to deploy our microservices either with Kubectl or with Helm.
-\begin{table}[H]
-    \renewcommand{\arraystretch}{1.5}%
-    \caption{Comparative study between Kubectl and Helm}
-    \centering
-    \medskip
-    \begin{tabularx}{1\textwidth} {
-            | >{\hsize=.7\hsize\linewidth=\hsize\centering\arraybackslash}X
-            | >{\hsize=1.15\hsize\linewidth=\hsize\justifying\arraybackslash}X
-            | >{\hsize=1.15\hsize\linewidth=\hsize\justifying\arraybackslash}X |}
-        \hline
-        \rowcolor{primary} \textbf {Aspect} & \textbf{Kubectl}                                                                                                                            & \textbf{Helm}                                                                                                                              \\
-        \hline
-        \textbf {Overview}                  & \noindent The official Kubernetes command-line tool for running commands against clusters.                                                  & \noindent The package manager for Kubernetes applications.                                                                                 \\
-        \hline
-        \textbf {Capabilities}              & \noindent Deploy applications, manage cluster resources, view logs, and advanced features like node tainting and load balancing strategies. & \noindent Define, install, and upgrade complex Kubernetes applications with templates to avoid code duplication between similar resources. \\
-        \hline
-    \end{tabularx}
-\end{table}
+
+\renewcommand{\arraystretch}{1.5}%
+\begin{longtable}{| p{0.2\textwidth} | p{0.38\textwidth} | p{0.38\textwidth} |}
+    \caption{Comparative study between Kubectl and Helm}                                                                                                                                                                                                                                                      \\
+    \hline
+    \rowcolor{primary} \textbf{Aspect} & \textbf{Kubectl}                                                                                                                  & \textbf{Helm}                                                                                                                    \\
+    \hline
+    \endfirsthead
+
+    \multicolumn{3}{c}%
+    {{\bfseries \tablename\ \thetable{} -- continued from previous page}}                                                                                                                                                                                                                                     \\
+    \hline
+    \rowcolor{primary} \textbf{Aspect} & \textbf{Kubectl}                                                                                                                  & \textbf{Helm}                                                                                                                    \\
+    \hline
+    \endhead
+
+    \hline \multicolumn{3}{|r|}{{Continued on next page}}                                                                                                                                                                                                                                                     \\
+    \endfoot
+
+    \hline
+    \endlastfoot
+
+    \textbf{Overview}                  & The official Kubernetes command-line tool for running commands against clusters.                                                  & The package manager for Kubernetes applications.                                                                                 \\
+    \hline
+    \textbf{Capabilities}              & Deploy applications, manage cluster resources, view logs, and advanced features like node tainting and load balancing strategies. & Define, install, and upgrade complex Kubernetes applications with templates to avoid code duplication between similar resources. \\
+    \hline
+\end{longtable}
 Thoroughly studying our use case, we agreed to create a uniform Helm package to ship our microservices.
 We also deemed it necessary to have some common configuration that we simply apply with Kubectl such as Ingress rules or letsencrypt certificates for convenience purposes and due to the lack of time.
 % ----------------------------------- SECTIONS (^) ----------------------------------- %
