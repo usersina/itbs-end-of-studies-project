@@ -14,11 +14,18 @@ I will discuss the most used tools in the market as well as which ones I settled
 \section{DevSecOps}
 
 \subsection{Definition}
-DevSecOps is an evolution of DevOps that integrates security practices into every stage of the software development lifecycle. Unlike traditional approaches where security is treated as a separate phase, DevSecOps embeds security considerations from the initial design through deployment and maintenance. This approach is particularly crucial for travel technology platforms like Navoy's, where sensitive user data, payment information, and booking details must be protected throughout the entire development and deployment process.
+DevSecOps stands for development, security, and operations. It's an approach to culture, automation, and platform design that integrates security as a shared responsibility throughout the entire IT lifecycle \cite{redhat-devsecops}. Unlike traditional approaches where security is treated as a separate phase, DevSecOps embeds security considerations from the initial design through deployment and maintenance. This approach is particularly crucial for travel technology platforms like Navoy's, where sensitive user data, payment information, and booking details must be protected throughout the entire development and deployment process.
 
-The core principle of DevSecOps is "security as code," meaning that security policies, compliance checks, and vulnerability assessments are automated and integrated directly into CI/CD pipelines. This ensures that security is not an afterthought but a fundamental aspect of the development process, enabling faster and more secure releases.
+The core addittion of DevSecOps over DevOps is "security as code," meaning that security policies, compliance checks, and vulnerability assessments are automated and integrated directly into CI/CD pipelines. This ensures that security is not an afterthought but a fundamental aspect of the development process, enabling faster and more secure releases.
 
 \subsection{DevSecOps Lifecycle}
+\begin{figure}[H]
+    \centering
+    \makebox[\textwidth]{\includegraphics[width=8cm]{src/assets/images/devsecops-lifecycle.png}}
+    \caption{DevSecOps Lifecycle}
+    \label{fig:devops-lifecycle}
+\end{figure}
+
 The DevSecOps lifecycle consists of several key phases that integrate security seamlessly into development operations:
 
 \begin{itemize}
@@ -36,30 +43,40 @@ For Navoy's AI travel platform, this lifecycle ensures that security vulnerabili
 Container security is a critical aspect of DevSecOps, especially when deploying microservices architectures. It involves securing the entire container lifecycle from image creation to runtime.
 
 \subsubsection*{What is container security?}
-Container security encompasses the practice of protecting containerized applications and their runtime environments. This includes securing container images, the container runtime, and the orchestration platform. Key aspects include vulnerability scanning of base images, implementing least-privilege access controls, and continuous monitoring of container behavior.
+Container security is the process of safeguarding containerized applications from malware and other vulnerabilities \cite{redhat-container-security}. This includes securing container images, the container runtime, and the orchestration platform. Key aspects include vulnerability scanning of base images, implementing least-privilege access controls, and continuous monitoring of container behavior.
 
 \subsubsection*{Security scanning in CI/CD}
-Security scanning in CI/CD pipelines involves automated vulnerability assessments at multiple stages. This includes scanning container images for known vulnerabilities, checking dependencies for security issues, and performing static code analysis. For Navoy's platform, this ensures that no vulnerable components are deployed to production, maintaining the security of the travel booking system.
+CI/CD security is the distribution of security practices and measures throughout the continuous integration and continuous delivery (CI/CD) pipeline \cite{paloalto-cicd-security}. This includes scanning container images for known vulnerabilities, checking dependencies for security issues, and performing static code analysis. For Navoy's platform, this ensures that no vulnerable components are deployed to production, maintaining the security of the travel booking system.
 
 \subsection{Infrastructure as Code (IaC) Security}
-Infrastructure as Code security involves applying security best practices to infrastructure definitions and ensuring that cloud resources are configured securely by default. This includes scanning IaC templates for misconfigurations, implementing policy as code, and maintaining compliance with security standards throughout the infrastructure provisioning process.
+
+\subsubsection*{What is IaC?}
+Infrastructure as code (IaC) is the ability to provision and support your computing infrastructure using code instead of manual processes and settings. Any application environment requires many infrastructure components like operating systems, database connections, and storage. Developers have to regularly set up, update, and maintain the infrastructure to develop, test, and deploy applications \cite{aws-iac}.
+
+\subsubsection*{Importance of IaC}
+IaC ensures high availability by enabling rapid infrastructure replication and scaling across multiple regions. It enhances disaster recovery capabilities by allowing infrastructure to be quickly recreated from code in case of failures, ensuring business continuity for critical systems like Navoy's platform. Additionally, IaC reduces human error, improves consistency, and enables faster deployment cycles across multiple cloud providers.
+
+\subsubsection*{IaC Security Best Practices}
+IaC security involves applying security best practices to infrastructure definitions and ensuring cloud resources are configured securely by default. This includes scanning IaC templates for misconfigurations, implementing policy as code, and maintaining compliance with security standards throughout the provisioning process.
 
 % ----------------------- AI Technologies ----------------------- %
 \section{AI Technologies for Trip Generation}
 
 \subsection{Large Language Models (LLMs)}
-Large Language Models are the core technology powering Navoy's AI-driven trip generation capabilities. These models understand natural language inputs from users describing their travel preferences and generate personalized itineraries with contextual recommendations for destinations, activities, accommodations, and dining options.
+Large Language Models (LLMs) are advanced deep learning models trained on vast corpora of text data to understand and generate human-like language. Architecturally, most state-of-the-art LLMs are based on the Transformer model \cite{vaswani2017attention}, which leverages self-attention mechanisms to capture complex dependencies in text. These models are pre-trained on large-scale datasets and then fine-tuned for specific tasks, enabling them to perform a wide range of natural language processing (NLP) applications such as text generation, summarization, translation, and question answering \cite{brown2020language, touvron2023llama}.
 
-For travel technology platforms like Navoy's, LLMs enable the transformation of unstructured user requests into structured, actionable travel plans while maintaining the conversational and personalized nature that users expect from modern AI assistants.
+The core technology powering Navoy's AI-driven trip generation capabilities is the LLM. These models can interpret natural language inputs from users describing their travel preferences and generate personalized itineraries with contextual recommendations for destinations, activities, accommodations, and dining options. The ability of LLMs to process unstructured user requests and transform them into structured, actionable travel plans is a significant advancement in AI-driven travel technology \cite{bommasani2021opportunities}.
+
+Recent research highlights the effectiveness of LLMs in understanding context, maintaining coherence over long conversations, and adapting to user-specific requirements \cite{openai2023gpt4, zhao2023survey}. For travel technology platforms like Navoy's, this means LLMs can deliver highly personalized and conversational experiences that align with modern user expectations for AI assistants.
 
 \subsection{Model Selection and Integration}
 The choice of LLM provider and integration approach is crucial for maintaining both quality and reliability in AI-powered travel recommendations.
 
-\subsection{AI Models: OpenAI GPT vs Claude vs LiteLLM}
+\subsection{AI Models: OpenAI GPT vs Claude}
 For AI-powered trip generation, selecting the right language model and integration approach is critical for delivering high-quality, personalized travel recommendations.
 
 \begin{table}[H]
-    \renewcommand{\arraystretch}{1.5}%
+    \renewcommand{\arraystretch}{1.5}
     \caption{Comparative study between OpenAI GPT, Claude, and LiteLLM}
     \centering
     \medskip
@@ -80,11 +97,18 @@ For AI-powered trip generation, selecting the right language model and integrati
 \end{table}
 
 \subsection{LiteLLM Integration Approach}
-For Navoy's AI travel platform, I chose to implement LiteLLM as the primary integration solution. LiteLLM is a proxy service that provides a unified interface to access multiple LLM providers including OpenAI, Anthropic, Google, and others through a single API.
+\begin{figure}[H]
+    \centering
+    \makebox[\textwidth]{\includegraphics[width=12cm]{src/assets/images/litellm.png}}
+    \caption{LiteLLM}
+    \label{fig:litellm}
+\end{figure}
+
+For Navoy's AI travel platform, I chose to implement LiteLLM as the primary integration solution. According to its official description, LiteLLM is an "LLM Gateway to provide model access, fallbacks and spend tracking across 100+ LLMs. All in the same API"\cite{litellm}. It acts as a proxy service that provides a unified interface to access multiple LLM providers including OpenAI, Anthropic, Google, and others through a single API.
 
 The key advantages of using LiteLLM include enabling model switching without code changes, cost optimization through provider comparison, fallback mechanisms for reliability, and unified monitoring across all models. It serves as a simple drop-in replacement for OpenAI API calls while supporting load balancing, rate limiting, and providing comprehensive logging and analytics.
 
-This approach allows seamless access to both OpenAI's GPT models and Claude, providing flexibility to use the best model for specific tasks - GPT for creative itinerary generation and Claude for detailed travel advice - while maintaining a unified codebase and enabling cost optimization through intelligent model routing.
+This approach allows organic access to both OpenAI's GPT models and Claude, providing flexibility to use the best model for specific tasks—GPT for creative itinerary generation and Claude for detailed travel advice—while maintaining a unified codebase and enabling cost optimization through intelligent model routing.
 
 % ----------------------- Cloud Infrastructure and Network Architecture ----------------------- %
 \section{Cloud Infrastructure and Network Architecture}
@@ -160,7 +184,9 @@ For Navoy's multi-cloud architecture, I implemented a hybrid monitoring approach
 In order to modernize Navoy's AI travel platform and implement proper DevSecOps practices, I need a wide range of tools that deal with the following areas: version control, container orchestration, infrastructure as code, and automated testing. For that, I conducted a comparative study on some of the tools the market provides.
 
 \subsection{Version Control: GitLab vs GitHub}
-Modern DevSecOps practices require robust version control systems with integrated CI/CD capabilities. Both GitLab and GitHub offer comprehensive DevOps platforms, but their approaches differ significantly.
+Modern DevSecOps relies on robust version control for collaboration and code management. GitLab and GitHub are leading platforms based on Git, supporting change tracking, branching, and team workflows. While both offer similar core features—like pull/merge requests and code review—they differ in their approach to DevOps integration.
+
+The table below compares their version control and DevSecOps integration:
 
 \begin{table}[H]
     \renewcommand{\arraystretch}{1.5}%
@@ -172,24 +198,28 @@ Modern DevSecOps practices require robust version control systems with integrate
             | >{\hsize=1.15\hsize\linewidth=\hsize\justifying\arraybackslash}X
             | >{\hsize=1.15\hsize\linewidth=\hsize\justifying\arraybackslash}X |}
         \hline
-        \rowcolor{primary} \textbf {Aspect} & \textbf {GitLab}                                                                                             & \textbf {GitHub}                                                                                             \\
+        \rowcolor{primary} \textbf {Aspect} & \textbf {GitLab}                                                                                                      & \textbf {GitHub}                                                                                             \\
         \hline
-        \textbf {DevSecOps Integration}     & \noindent Complete DevSecOps platform with built-in SAST, DAST, dependency scanning, and container scanning. & \noindent Requires third-party integrations and GitHub Actions for comprehensive security scanning.          \\
+        \textbf {Version Control Features}  & \noindent Distributed version control with Git, merge requests, integrated code review, and granular access controls. & \noindent Distributed version control with Git, pull requests, code review, and fine-grained permissions.    \\
         \hline
-        \textbf {CI/CD Capabilities}        & \noindent Built-in CI/CD with powerful pipelines, auto-scaling runners, and advanced caching.                & \noindent GitHub Actions provides flexible automation but requires more configuration for complex scenarios. \\
+        \textbf {DevSecOps Integration}     & \noindent Complete DevSecOps platform with built-in SAST, DAST, dependency scanning, and container scanning.          & \noindent Requires third-party integrations and GitHub Actions for comprehensive security scanning.          \\
         \hline
-        \textbf {Self-Hosting}              & \noindent Robust self-hosting with GitLab CE/EE, providing complete control over data and infrastructure.    & \noindent GitHub Enterprise Server offers limited self-hosting features.                                     \\
+        \textbf {CI/CD Capabilities}        & \noindent Built-in CI/CD with powerful pipelines, auto-scaling runners, and advanced caching.                         & \noindent GitHub Actions provides flexible automation but requires more configuration for complex scenarios. \\
+        \hline
+        \textbf {Self-Hosting}              & \noindent Robust self-hosting with GitLab CE/EE, providing complete control over data and infrastructure.             & \noindent GitHub Enterprise Server offers limited self-hosting features.                                     \\
         \hline
     \end{tabularx}
 \end{table}
 
-For Navoy's platform, I chose GitLab due to its comprehensive DevSecOps capabilities, native security scanning integration, and the company's existing self-hosted GitLab instance. This choice provides complete control over sensitive travel data and enables seamless security integration throughout the development pipeline.
+Both platforms excel at version control, but GitLab stands out for its built-in DevSecOps and CI/CD, while GitHub relies more on third-party tools and Actions for automation and security.
+
+For Navoy's platform, I chose GitLab for its integrated security, DevSecOps features, and existing self-hosted setup, ensuring full control over sensitive data and seamless security in the development pipeline.
 
 \subsection{Infrastructure as Code: Terraform vs Pulumi}
-For managing cloud infrastructure programmatically, Infrastructure as Code (IaC) tools are essential. Both Terraform and Pulumi offer infrastructure provisioning capabilities but with different approaches.
+Terraform and Pulumi are leading tools for managing cloud infrastructure programmatically. While both enable infrastructure provisioning, they differ in language support, ecosystem maturity, and workflow integration.
 
 \begin{table}[H]
-    \renewcommand{\arraystretch}{1.5}%
+    \renewcommand{\arraystretch}{1.5}
     \caption{Comparative study between Terraform and Pulumi}
     \centering
     \medskip
@@ -211,14 +241,20 @@ For managing cloud infrastructure programmatically, Infrastructure as Code (IaC)
     \end{tabularx}
 \end{table}
 
-For Navoy's infrastructure needs, I chose Terraform due to its maturity, extensive provider ecosystem, and the team's existing familiarity with HCL. Terraform's robust state management and widespread industry adoption make it the ideal choice for managing the complex cloud infrastructure required for a scalable AI travel platform.
+For Navoy's infrastructure, I chose Terraform due to its maturity, provider ecosystem, and the team's familiarity with HCL. Its robust state management and industry adoption make it ideal for managing complex, scalable cloud environments.
 
 \subsection{Deployment: Docker Swarm vs Kubernetes}
-The old deployment uses Docker Compose but that will not cut it anymore since it is not very optimized for production, especially on systems that need to scale later on as is the case here.
-Our research leads us to choosing between either Docker Swarm or Kubernetes.
 
+\subsubsection*{Container Orchestration}
+Docker Compose is a tool for defining and running multi-container applications \cite{docker-compose} and whilte it is great for local development and testing, but it is not suitable for production. It lacks high availability, automated failover, rolling updates, and dynamic scaling. Without features like native service discovery, self-healing, or advanced networking, Compose cannot reliably manage complex, distributed applications at scale. Using it in production can result in downtime and manual intervention.
+
+For production, container orchestration is essential. Tools like Kubernetes and Docker Swarm automate deployment, scaling, and management of containers across clusters. Kubernetes stands out for its self-healing, auto-scaling, declarative configuration, and large ecosystem. While Docker Compose can define multi-container apps, it lacks the automation, resilience, and scalability needed for cloud-native workloads. Moving to Kubernetes or a similar orchestrator ensures reliability and maintainability.
+
+Our research led us to compare Docker Swarm and Kubernetes.
+
+\subsubsection*{Docker Swarm vs Kubernetes}
 \begin{table}[H]
-    \renewcommand{\arraystretch}{1.5}%
+    \renewcommand{\arraystretch}{1.5}
     \caption{Comparative study between Docker Swarm and Kubernetes}
     \centering
     \medskip
@@ -240,7 +276,7 @@ Our research leads us to choosing between either Docker Swarm or Kubernetes.
             \item Cross-platform support
             \item Large community with Google backing
             \item Industry standard orchestrator
-        \end{itemize}                                   \\
+        \end{itemize}                                  \\
         \hline
         \textbf {Disadvantages}             & \noindent Abandoned by Docker Inc. and no longer maintained.                                                                                                                                                                                                                       & \noindent Steep learning curve and requires separate CLI tools. \\
         \hline
@@ -252,7 +288,7 @@ Therefore, we will be deploying our application stack to Kubernetes since the po
 Automated testing is crucial for DevSecOps pipelines, ensuring code quality and preventing regressions. For Navoy's platform, both unit testing and end-to-end testing are essential.
 
 \begin{table}[H]
-    \renewcommand{\arraystretch}{1.5}%
+    \renewcommand{\arraystretch}{1.5}
     \caption{Comparative study between Jest and Playwright}
     \centering
     \medskip
@@ -290,7 +326,7 @@ Since we're using Kubernetes, we have the option to deploy our microservices eit
         \hline
         \rowcolor{primary} \textbf {Aspect} & \textbf{Kubectl}                                                                                                                            & \textbf{Helm}                                                                                                                              \\
         \hline
-        \textbf {Overview}                  & \noindent Official Kubernetes command-line tool for running commands against clusters.                                                      & \noindent Package manager for Kubernetes applications.                                                                                     \\
+        \textbf {Overview}                  & \noindent The official Kubernetes command-line tool for running commands against clusters.                                                  & \noindent The package manager for Kubernetes applications.                                                                                 \\
         \hline
         \textbf {Capabilities}              & \noindent Deploy applications, manage cluster resources, view logs, and advanced features like node tainting and load balancing strategies. & \noindent Define, install, and upgrade complex Kubernetes applications with templates to avoid code duplication between similar resources. \\
         \hline
@@ -303,8 +339,4 @@ We also deemed it necessary to have some common configuration that we simply app
 \setcounter{secnumdepth}{0} % Set the section counter to 0 so next section is not counted in toc
 % ----------------------- Conclusion ----------------------- %
 \section{Conclusion}
-In this chapter, I discussed the main concepts relevant to modernizing Navoy's AI travel platform, with particular emphasis on network engineering principles, cloud infrastructure design, and multi-cloud networking strategies. I explored network security frameworks, traffic optimization, and the importance of robust monitoring in maintaining distributed systems performance.
-
-I then conducted comparative studies between various tools and cloud providers in the market and explained my technology choices. For cloud infrastructure, I selected a multi-cloud approach utilizing both Microsoft Azure and Amazon AWS to leverage optimal networking capabilities and regional presence. For network monitoring, I chose a hybrid approach with Prometheus for cross-cloud observability complemented by native cloud monitoring services. For AI-powered trip generation, I selected LiteLLM as a universal proxy to access both OpenAI's GPT models and Claude, providing flexibility and cost optimization. For version control and CI/CD, I selected GitLab over GitHub due to its comprehensive built-in DevSecOps capabilities. For infrastructure as code, I chose Terraform over Pulumi for its maturity and extensive multi-cloud support. For container orchestration, Kubernetes was selected for its advanced networking features and multi-cloud portability. Finally, I chose a combination of Jest and Playwright for testing to ensure both unit test coverage and end-to-end user experience validation.
-
-These technology choices provide a solid foundation for implementing a secure, scalable, and network-optimized microservices architecture for Navoy's AI travel platform across multiple cloud environments.
+This chapter reviewed the key concepts and technologies essential for modernizing Navoy's AI travel platform, with a focus on secure, scalable, and network-optimized architecture. After comparative analysis, I selected solutions that best support multi-cloud deployment, robust security, and efficient AI-driven services. These choices lay the groundwork for a resilient and future-proof platform.
