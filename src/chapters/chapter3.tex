@@ -144,52 +144,53 @@ Here is an example of the textual description of one of the key use case scenari
 
 % ----------------------- Network Architecture Design ----------------------- %
 \section{Network Architecture Design}
-The network architecture for Navoy's AI travel platform requires a sophisticated multi-cloud design that ensures optimal performance, security, and scalability across different geographical regions.
+The network architecture for Navoy's AI travel platform utilizes specific cloud services from Azure for development support and shared resources, while AWS hosts the core application components, including the container registry, secrets management, and the Kubernetes cluster. This approach aims for a practical and efficient deployment based on current capabilities.
 
-\subsection{Multi-Cloud Network Topology}
-The platform operates across both Azure and AWS clouds to leverage the strengths of each provider while ensuring redundancy and optimal regional coverage.
+An alpha release has already been successfully deployed using an identical setup to the development environment, demonstrating the viability of the architecture and deployment pipeline. However, it should be noted that the AWS Kubernetes cluster implementation remains a work in progress by the development team at the time this report was printed.
 
-\subsubsection*{\underline{Azure Network Architecture}}
+\subsection{Cloud Services Utilization}
+The platform leverages specific services from Azure and AWS to support its development lifecycle and operational needs, rather than a traditional multi-cloud application deployment.
+
+\subsubsection*{\underline{Azure Services}}
+
 \begin{itemize}
-    \item \textbf{Virtual Network (VNet) Design:} Implemented hub-and-spoke topology with dedicated subnets for frontend services, backend microservices, databases, and management components
-    \item \textbf{ExpressRoute Connectivity:} Established dedicated private connections for hybrid cloud scenarios and enhanced security
-    \item \textbf{Azure Traffic Manager:} Configured for global load balancing and DNS-based traffic routing to ensure optimal user experience
-    \item \textbf{Network Security Groups:} Implemented layered security with application-specific rules and traffic filtering
+    \item \textbf{Development Resource Group:} Provides the environment for development and continuous deployment validation.
+    \item \textbf{Network Security Groups (NSGs):} Utilized to secure and control network traffic to and from Azure resources within these groups.
+    \item \textbf{Azure OpenAI Service:} Used for AI model development and testing, providing access to LLMs for trip generation and recommendations.
+    \item \textbf{Shared Resource Group:} Hosts custom GitLab runners and other shared infrastructure components.
 \end{itemize}
 
-\subsubsection*{\underline{AWS Network Architecture}}
+The detailed Azure network topology diagrams, including development and shared resource group configurations, are provided in \textbf{Appendix A}
+
+\subsubsection*{\underline{AWS Services}}
+
 \begin{itemize}
-    \item \textbf{VPC Design:} Created multi-tier VPC architecture with public, private, and isolated subnets across multiple availability zones
-    \item \textbf{Direct Connect:} Implemented for consistent network performance and reduced data transfer costs
-    \item \textbf{Route 53:} Configured for intelligent DNS routing and health checks for service discovery
-    \item \textbf{Security Groups and NACLs:} Established defense-in-depth network security with stateful and stateless filtering
+    \item \textbf{Container Registry (ECR):} Stores Docker images built during CI runs.
+    \item \textbf{Secrets Manager:} Manages Terraform secrets and environment-specific application secrets.
+    \item \textbf{Kubernetes Cluster (EKS):} The target environment for deploying the application services. This will involve a Virtual Private Cloud (VPC) configured for the cluster's needs.
+    \item \textbf{Security Groups and Network ACLs (NACLs):} Implemented to secure the VPC, Kubernetes cluster, and other AWS resources.
+    \item \textbf{AWS Bedrock:} Provides a Claude models for advanced AI capabilities, such as trip evaluation and optimization.
+    \item \textbf{AWS Lambda:} Used for serverless functions that handle specific tasks, such as trip generation requests and data processing.
 \end{itemize}
 
-\subsubsection*{\underline{Inter-Cloud Connectivity}}
-\begin{itemize}
-    \item \textbf{VPN Gateways:} Configured site-to-site VPN connections between Azure and AWS for secure inter-cloud communication
-    \item \textbf{Hybrid DNS:} Implemented cross-cloud service discovery using Azure DNS Private Zones and AWS Route 53 Private Hosted Zones
-    \item \textbf{Traffic Optimization:} Designed routing policies to minimize cross-cloud traffic and reduce latency
-    \item \textbf{Data Synchronization:} Established secure channels for data replication and backup across cloud providers
-\end{itemize}
+The detailed AWS network topology diagram for the production environment and Kubernetes cluster configuration is provided in \textbf{Appendix B}.
 
 \subsection{Load Balancing and Traffic Management}
-The platform implements sophisticated load balancing strategies to ensure optimal performance and high availability.
-
-\subsubsection*{\underline{Global Load Balancing}}
-\begin{itemize}
-    \item \textbf{Azure Front Door:} Configured for global HTTP/HTTPS load balancing with SSL termination and Web Application Firewall integration
-    \item \textbf{AWS CloudFront:} Implemented as CDN with intelligent edge routing for static content delivery and API acceleration
-    \item \textbf{Geographic Routing:} Configured routing policies to direct users to the nearest cloud region based on geographical location
-    \item \textbf{Health Monitoring:} Implemented comprehensive health checks and automatic failover mechanisms
-\end{itemize}
+The platform implements a straightforward load balancing setup focused on essential AWS services to ensure reliable performance and security.
 
 \subsubsection*{\underline{Application Load Balancing}}
 \begin{itemize}
-    \item \textbf{Azure Application Gateway:} Deployed for Layer 7 load balancing with SSL offloading and URL-based routing
-    \item \textbf{AWS Application Load Balancer:} Configured for microservices routing with path-based and host-based routing rules
-    \item \textbf{Session Affinity:} Implemented sticky sessions for stateful applications while maintaining scalability
-    \item \textbf{Auto-scaling Integration:} Connected load balancers with auto-scaling groups for dynamic capacity management
+    \item \textbf{AWS Application Load Balancer (ALB):} Single entry point for all external traffic, configured with SSL/TLS termination and basic path-based routing to the Kubernetes cluster.
+    \item \textbf{Kubernetes Ingress:} NGINX ingress controller within the EKS cluster handles internal service routing and traffic distribution.
+    \item \textbf{Health Checks:} Basic health monitoring for all services with automatic unhealthy instance removal.
+    \item \textbf{Auto-scaling:} Integration with Kubernetes Horizontal Pod Autoscaler (HPA) for automatic scaling based on CPU and memory metrics.
+\end{itemize}
+
+\subsubsection*{\underline{SSL/TLS and Security}}
+\begin{itemize}
+    \item \textbf{Certificate Management:} AWS Certificate Manager (ACM) for SSL/TLS certificates with automatic renewal.
+    \item \textbf{HTTPS Enforcement:} All traffic redirected to HTTPS with secure cipher suites and TLS 1.2+ enforcement.
+    \item \textbf{Security Headers:} Standard security headers configured at the ALB level for basic protection.
 \end{itemize}
 
 \subsection{Network Security Architecture}
@@ -197,37 +198,37 @@ Network security is implemented using a defense-in-depth approach across multipl
 
 \subsubsection*{\underline{Perimeter Security}}
 \begin{itemize}
-    \item \textbf{Web Application Firewall:} Deployed Azure WAF and AWS WAF for application-layer protection against common attacks
-    \item \textbf{DDoS Protection:} Implemented Azure DDoS Protection Standard and AWS Shield Advanced for volumetric attack mitigation
-    \item \textbf{API Gateway Security:} Configured rate limiting, throttling, and authentication at the API gateway level
-    \item \textbf{CDN Security:} Enabled security features on CloudFront and Azure CDN for edge-level protection
+    \item \textbf{Web Application Firewall (AWS WAF):} Deployed with AWS ALB for application-layer protection against common web exploits and attacks.
+    \item \textbf{DDoS Protection (AWS Shield):} AWS Shield Standard provides basic DDoS protection by default for all AWS resources.
+    \item \textbf{API Gateway Security:} Rate limiting, throttling, and authentication are configured at the REST gateway service level within the Kubernetes deployment.
+    \item \textbf{Network Access Control:} Security groups and NACLs restrict traffic to only necessary ports and protocols.
 \end{itemize}
 
 \subsubsection*{\underline{Network Segmentation}}
 \begin{itemize}
-    \item \textbf{Micro-segmentation:} Implemented fine-grained network policies for container-to-container communication
-    \item \textbf{Zero Trust Architecture:} Designed network policies that verify every connection regardless of location
-    \item \textbf{Service Mesh Security:} Integrated Istio service mesh for encrypted service-to-service communication
-    \item \textbf{Database Network Isolation:} Configured private subnets and network ACLs for database tier protection
+    \item \textbf{VPC Isolation:} The EKS cluster operates within a dedicated VPC with private subnets for enhanced security.
+    \item \textbf{Kubernetes Network Policies:} Control pod-to-pod communication within the cluster with namespace-based segmentation.
+    \item \textbf{Database Network Isolation:} Databases are deployed in private subnets with dedicated security groups restricting access to authorized services only.
+    \item \textbf{Service-to-Service Communication:} Internal services communicate through private networking with security group rules enforcing least-privilege access.
 \end{itemize}
 
 \subsection{Network Monitoring and Observability}
-Comprehensive network monitoring ensures optimal performance and security across the multi-cloud infrastructure.
+Essential network monitoring ensures optimal performance and security across the AWS infrastructure.
 
 \subsubsection*{\underline{Traffic Analysis}}
 \begin{itemize}
-    \item \textbf{VPC Flow Logs:} Enabled detailed network traffic logging in both Azure and AWS for security analysis
-    \item \textbf{Network Performance Monitoring:} Implemented tools to track latency, throughput, and packet loss across regions
-    \item \textbf{Bandwidth Utilization:} Configured monitoring for data transfer costs and optimization opportunities
-    \item \textbf{Anomaly Detection:} Implemented ML-based network anomaly detection for proactive issue identification
+    \item \textbf{AWS VPC Flow Logs:} Enabled for network traffic logging and security analysis within the EKS cluster VPC.
+    \item \textbf{CloudWatch Network Monitoring:} AWS CloudWatch metrics for tracking network performance, latency, and throughput.
+    \item \textbf{Cost Monitoring:} Data transfer cost tracking and optimization through AWS Cost Explorer.
+    \item \textbf{Basic Anomaly Detection:} CloudWatch anomaly detection for unusual network traffic patterns.
 \end{itemize}
 
 \subsubsection*{\underline{Security Monitoring}}
 \begin{itemize}
-    \item \textbf{Intrusion Detection:} Deployed network-based IDS/IPS systems for threat detection
-    \item \textbf{Security Information and Event Management:} Integrated network logs with SIEM systems for correlation
-    \item \textbf{Compliance Monitoring:} Implemented continuous compliance checking for network security standards
-    \item \textbf{Incident Response:} Established automated response procedures for network security incidents
+    \item \textbf{CloudTrail Logging:} API call logging for security audit trails and compliance monitoring.
+    \item \textbf{Security Hub Integration:} Centralized security findings and compliance status monitoring.
+    \item \textbf{GuardDuty (Optional):} AWS threat detection service for malicious activity monitoring.
+    \item \textbf{Incident Response:} Automated CloudWatch alarms and SNS notifications for security incidents.
 \end{itemize}
 
 % ----------------------- Conception ----------------------- %
@@ -237,12 +238,7 @@ In this section, I present the detailed architecture conception for Navoy's AI t
 \subsection{Overall System Architecture}
 The platform follows a microservices architecture pattern with eight core services, each responsible for specific business capabilities. The architecture emphasizes modularity, scalability, and maintainability while supporting both B2C SaaS users and B2B API clients.
 
-\begin{figure}[H]
-    \centering
-    \makebox[\textwidth]{\includegraphics[width=0.9\linewidth]{./src/assets/diagrams/software-architecture.drawio.png}}
-    \caption{Navoy AI Travel Platform - System Architecture Overview}
-    \label{fig:system-architecture}
-\end{figure}
+A detailed version of this system architecture diagram with comprehensive service relationships and communication patterns is provided in \textbf{Appendix C}.
 
 \subsection{Core Microservices Design}
 
@@ -337,7 +333,6 @@ The platform implements a "database per service" pattern to ensure service auton
 \textbf{Synchronous Communication:}
 \begin{itemize}
     \item REST APIs for real-time operations requiring immediate responses
-    \item gRPC for high-performance internal service communication (Vector Store)
     \item HTTP/HTTPS with JSON payloads for external API integrations
 \end{itemize}
 
@@ -347,6 +342,8 @@ The platform implements a "database per service" pattern to ensure service auton
     \item Event-driven architecture for data synchronization notifications
     \item Message queues for decoupled service interactions
 \end{itemize}
+
+The complete inter-service communication flow and detailed service interactions are illustrated in \textbf{Appendix C}.
 
 \subsection{AI and Machine Learning Integration}
 

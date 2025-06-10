@@ -1,31 +1,41 @@
 % List of appendices
 \begin{appendices}
     % Appendix a
-    \section{MyApp management}
+    \section{Azure Network Topology}
+    Detailed network topology diagrams for Azure environments.
     \begin{figure}[H]
         \centering
-        \makebox[\textwidth]{\includegraphics[width=12cm]{src/assets/screenshots/crud-gen-example-1.jpg}}
-        \caption*{Show list}
+        \makebox[\textwidth]{\includegraphics[width=\linewidth]{src/assets/images/azure-development-topology.png}}
+        \caption{Azure Development and Alpha Release Topology}
+        \label{fig:azure-development-topology-appendix}
     \end{figure}
     \begin{figure}[H]
         \centering
-        \makebox[\textwidth]{\includegraphics[width=12cm]{src/assets/screenshots/crud-gen-example-2.jpg}}
-        \caption*{Filter list}
+        \makebox[\textwidth]{\includegraphics[width=\linewidth]{src/assets/images/azure-shared-topology.png}}
+        \caption{Azure Shared Topology}
+        \label{fig:azure-shared-topology-appendix}
     \end{figure}
+    \newpage
 
     % Appendix b
-    \section{Kubernetes dashboard}
-    The Kubernetes dashboard is a web based UI for Kubernetes clusters.
-    It allows the management of applications running in the cluster.
+    \section{AWS Production Diagram}
     \begin{figure}[H]
         \centering
-        \makebox[\textwidth]{\includegraphics[width=\linewidth]{src/assets/images/kubernetes-dashboard-pods.JPG}}
-        \caption*{Monitoring the pods with the Kubernetes dashboard}
+        \makebox[\textwidth]{\includegraphics[width=20cm]{src/assets/images/aws-production-architecture.png}}
+        \caption{AWS Production Architecture}
+        \label{fig:aws-production-architecture-appendix}
     \end{figure}
+    \newpage
+
+    % Appendix c
+    \section{Overall System Architecture}
+    Comprehensive system architecture diagram showing the complete microservices design and inter-service communication patterns.
+
     \begin{figure}[H]
         \centering
-        \makebox[\textwidth]{\includegraphics[width=\linewidth]{src/assets/images/kubernetes-dashboard-workloads.JPG}}
-        \caption*{Monitoring the workloads with the Kubernetes dashboard}
+        \makebox[\textwidth]{\includegraphics[width=\linewidth]{src/assets/diagrams/software-architecture.drawio.png}}
+        \caption{Navoy AI Travel Platform - Complete System Architecture}
+        \label{fig:system-architecture-detailed-appendix}
     \end{figure}
     \newpage
 \end{appendices}
