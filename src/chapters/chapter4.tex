@@ -5,9 +5,9 @@
 \setcounter{secnumdepth}{0} % Set the section counter to 0 so next section is not counted in toc
 % ----------------------- Introduction ----------------------- %
 \section{Introduction}
-This chapter details the implementation and deployment of Navoy's modernized AI travel platform, focusing on the multi-cloud network infrastructure and microservices deployment. I present the technical realization of the network architecture, DevSecOps pipeline implementation, and the solutions that enable global scalability and reliability.
+This chapter details the implementation and deployment of Navoy's modernized AI travel platform, focusing on the practical network infrastructure and microservices deployment approach. I present the technical realization of the network architecture, DevSecOps pipeline implementation, and the solutions that enable scalability and reliability.
 
-The implementation encompasses multi-cloud deployment across Azure and AWS, secure inter-cloud connectivity, microservices containerization, and comprehensive monitoring with observability tools.
+The implementation encompasses Azure services for development support and shared resources, AWS services for production deployment, microservices containerization, and comprehensive monitoring with observability tools. This approach prioritizes practical deployment capabilities while maintaining the platform's core functionality and performance requirements.
 
 \setcounter{secnumdepth}{2} % Resume counting the sections for the toc with a depth of 2 (Sections and sub-sections)
 % ----------------------------------- SECTIONS (v) ----------------------------------- %
@@ -27,132 +27,157 @@ I configured a containerized development environment using Docker Compose to ens
 
 \subsection{Service-Specific Development Setup}
 
-\subsubsection*{\underline{Node.js Services (Gateway, User Service)}}
+\subsubsection*{\underline{Envoy Proxy (REST Gateway)}}
+\begin{itemize}
+    \item \textbf{Service Mesh:} Envoy Proxy for advanced traffic management and load balancing
+    \item \textbf{Configuration:} YAML-based configuration for routing, rate limiting, and caching
+    \item \textbf{Redis Integration:} Redis for rate limiting and response caching
+    \item \textbf{Authentication:} JWT token validation and authorization middleware
+\end{itemize}
+
+\subsubsection*{\underline{NestJS Services (User Service, Trip Generator, Travel Data Sync)}}
 \begin{itemize}
     \item \textbf{Runtime:} Node.js 18 LTS with npm for package management
-    \item \textbf{Framework:} Express.js for REST API development with middleware for authentication and rate limiting
-    \item \textbf{Database Connectivity:} PostgreSQL client libraries and Redis client for caching
-    \item \textbf{Testing Setup:} Jest for unit testing with supertest for API endpoint testing
+    \item \textbf{Framework:} NestJS for scalable server-side applications with TypeScript
+    \item \textbf{Database Connectivity:} PostgreSQL and MongoDB client libraries with Prisma/Mongoose
+    \item \textbf{Testing Setup:} Jest for unit testing with comprehensive decorator and service testing
     \item \textbf{Code Quality:} ESLint for code linting, Prettier for code formatting, Husky for Git hooks
 \end{itemize}
 
-\subsubsection*{\underline{Python Services (Trip Generator, Data Sync, Vector Store)}}
+\subsubsection*{\underline{Node.js Services (Vector Store Service)}}
 \begin{itemize}
-    \item \textbf{Runtime:} Python 3.11 with Poetry for dependency management
-    \item \textbf{Framework:} FastAPI for high-performance async API development
-    \item \textbf{AI Integration:} LiteLLM library for unified LLM access, OpenAI and Anthropic client libraries
-    \item \textbf{Database Connectivity:} PyMongo for MongoDB operations, ChromaDB Python client for vector operations
-    \item \textbf{Message Queue:} Celery with Redis broker for asynchronous task processing
-    \item \textbf{Testing Setup:} Pytest for unit testing, pytest-asyncio for async testing
-    \item \textbf{Code Quality:} Black for code formatting, Pylint for linting, MyPy for type checking
+    \item \textbf{Runtime:} Node.js 18 LTS with npm for package management
+    \item \textbf{gRPC Integration:} gRPC server implementation for high-performance communication
+    \item \textbf{Database Connectivity:} ChromaDB client libraries for vector operations
+    \item \textbf{Message Queue:} RabbitMQ consumer integration for embedding generation
+    \item \textbf{Code Quality:} ESLint for code linting, Prettier for code formatting
 \end{itemize}
 
-% ----------------------- Multi-Cloud Network Infrastructure Setup ----------------------- %
-\section{Multi-Cloud Network Infrastructure Setup}
-The implementation of Navoy's AI travel platform required establishing a sophisticated multi-cloud network infrastructure that leverages both Azure and AWS capabilities while ensuring seamless connectivity and optimal performance.
+% ----------------------- Cloud Infrastructure Setup ----------------------- %
+\section{Cloud Infrastructure Setup}
+The implementation of Navoy's AI travel platform follows a practical approach that leverages Azure for development support and shared resources, while AWS hosts the production infrastructure including the container registry, secrets management, and Kubernetes cluster.
 
-\subsection{Azure Network Infrastructure Implementation}
-I designed and implemented a comprehensive Azure network architecture following hub-and-spoke topology principles to support the platform's microservices and ensure scalable, secure operations.
+\subsection{Azure Infrastructure for Development and Shared Resources}
+Azure provides the foundation for development activities and shared infrastructure components, enabling efficient development workflows and resource sharing.
 
-\subsubsection*{\underline{Virtual Network Configuration}}
-The Azure implementation includes a central hub VNet containing shared services and multiple spoke VNets for different application tiers. I configured the hub VNet with gateway subnets for VPN and ExpressRoute connectivity, management subnets for operational tools, and shared services subnets for DNS and monitoring components. Each spoke VNet contains application-specific subnets with appropriate network security groups and route tables configured for traffic flow optimization.
+\begin{figure}[H]
+    \centering
+    \makebox[\textwidth]{\includegraphics[width=\linewidth]{src/assets/images/azure-used-services.png}}
+    \caption{Azure Services List Overview}
+    \label{fig:azure-services-list}
+\end{figure}
 
-\subsubsection*{\underline{Azure Traffic Manager Setup}}
-I implemented Azure Traffic Manager with geographic routing policies to direct users to the optimal Azure region based on their location. The configuration includes health monitoring endpoints for each microservice, automatic failover mechanisms, and integration with Azure DNS for seamless domain resolution. The Traffic Manager profiles support both weighted routing for gradual deployment and performance-based routing for optimal user experience.
+\subsubsection*{\underline{Development Resource Group Configuration}}
+I configured Azure development resource groups to support the complete development lifecycle. The setup includes virtual machines for development environments, network security groups for controlled access, and Azure DevOps integration for continuous deployment validation. Each development environment mirrors the production setup to ensure deployment consistency and reduce environment-specific issues.
 
-\subsubsection*{\underline{ExpressRoute Implementation}}
-For enhanced connectivity and reduced latency, I established ExpressRoute circuits providing dedicated private connections to Azure. The implementation includes redundant circuits across different peering locations, BGP routing configuration for optimal path selection, and integration with the hub VNet gateway for hybrid connectivity scenarios.
+\subsubsection*{\underline{Azure OpenAI Service Integration}}
+The platform leverages Azure OpenAI Service for AI model development and testing. I configured access to GPT models for trip generation prototyping, established proper API key management, and implemented usage monitoring to optimize costs during development. The service provides consistent AI capabilities for testing before production deployment.
 
-\subsection{AWS Network Infrastructure Implementation}
-The AWS infrastructure complements the Azure setup with advanced networking features and global reach capabilities essential for the AI travel platform's requirements.
+\subsubsection*{\underline{Shared Resource Group Implementation}}
+I implemented shared resource groups hosting GitLab runners and other common infrastructure components. The configuration includes custom GitLab runner instances for CI/CD pipeline execution, shared monitoring tools, and centralized logging infrastructure. This approach optimizes resource utilization and provides consistent tooling across development teams.
 
-\subsubsection*{\underline{VPC Architecture Design}}
-I implemented a multi-tier VPC architecture across multiple availability zones with public subnets for load balancers and NAT gateways, private subnets for application servers and microservices, and isolated subnets for databases and sensitive components. Each tier includes custom route tables, security groups with principle of least privilege, and VPC endpoints for secure access to AWS services without internet routing.
+\begin{figure}[H]
+    \centering
+    \makebox[\textwidth]{\includegraphics[width=\linewidth]{src/assets/images/gitlab-runners-list.png}}
+    \caption{GitLab Runners Configuration for CI/CD Pipeline Execution}
+    \label{fig:gitlab-runners-list}
+\end{figure}
 
-\subsubsection*{\underline{Route 53 Configuration}}
-The DNS infrastructure utilizes Route 53 for intelligent traffic routing with health checks, geolocation routing policies, and integration with AWS services. I configured private hosted zones for internal service discovery, public zones for external access, and alias records for optimal performance with ELB and CloudFront distributions.
+\subsection{AWS Production Infrastructure Implementation}
+AWS serves as the primary production environment, hosting the core application components with comprehensive security and scalability features.
 
-\subsubsection*{\underline{Direct Connect Setup}}
-To ensure consistent network performance and reduce data transfer costs, I implemented AWS Direct Connect with dedicated virtual interfaces. The configuration includes BGP routing optimization, redundant connections for high availability, and integration with VPC gateways for seamless hybrid connectivity.
+\subsubsection*{\underline{VPC Architecture for EKS Cluster}}
+I implemented a dedicated VPC architecture designed specifically for the EKS cluster deployment. The configuration includes public subnets for load balancers and NAT gateways, private subnets for application workloads, and isolated subnets for databases. Each subnet tier includes appropriate route tables, security groups implementing least-privilege access, and VPC endpoints for secure access to AWS services without internet routing.
 
-\subsection{Inter-Cloud Connectivity Implementation}
-Establishing secure, reliable connectivity between Azure and AWS environments was crucial for the platform's multi-cloud architecture and data synchronization requirements.
+\subsubsection*{\underline{Container Registry and Secrets Management}}
+AWS ECR serves as the centralized container registry for all Docker images built during CI runs. I configured repository policies for image lifecycle management, vulnerability scanning for security compliance, and cross-region replication for availability. AWS Secrets Manager handles all application secrets and Terraform state secrets with automatic rotation policies and fine-grained access controls.
 
-\subsubsection*{\underline{Site-to-Site VPN Configuration}}
-I configured IPSec VPN tunnels between Azure VPN Gateway and AWS VPN Gateway to enable secure communication between cloud environments. The implementation includes redundant tunnels for high availability, BGP routing for dynamic path selection, and encryption protocols meeting enterprise security standards. The VPN configuration supports both management traffic and data synchronization between cloud environments.
+\subsubsection*{\underline{EKS Cluster Configuration}}
+The production EKS cluster implements industry best practices for security and scalability. I configured managed node groups with appropriate instance types, implemented cluster autoscaling for dynamic workload management, and established RBAC policies for service access control. The cluster includes network policies for pod-to-pod communication control and integration with AWS services through service accounts and IAM roles.
 
-\subsubsection*{\underline{Cross-Cloud Service Discovery}}
-To enable seamless service discovery across cloud environments, I implemented a hybrid DNS solution using Azure DNS Private Zones and AWS Route 53 Private Hosted Zones. The configuration includes conditional forwarding rules, DNS proxy servers for cross-cloud resolution, and health monitoring for service availability across both environments.
+\subsubsection*{\underline{AWS Bedrock Integration}}
+AWS Bedrock is integrated within the production environment to provide managed access to advanced foundation models, specifically Anthropic Claude models for enhanced AI capabilities. I configured secure API access through AWS IAM roles and policies, enabling the Trip Generator Service to leverage Bedrock's foundation models for trip evaluation, optimization, and advanced recommendation generation. The integration maintains data privacy and security while providing scalable access to state-of-the-art AI models without infrastructure management overhead.
 
-\subsubsection*{\underline{Traffic Optimization}}
-I designed intelligent routing policies to minimize cross-cloud traffic and reduce latency by implementing local service preferences, data locality optimization, and strategic service placement based on user geography and data residency requirements.
-
-\subsection{Load Balancing and CDN Implementation}
-The platform implements sophisticated load balancing and content delivery strategies to ensure optimal performance and high availability for global users.
-
-\subsubsection*{\underline{Azure Front Door Configuration}}
-I deployed Azure Front Door as the global HTTP/HTTPS load balancer with SSL termination, Web Application Firewall integration, and intelligent routing capabilities. The configuration includes custom routing rules based on URL patterns, geographic routing policies, and health probe configurations for automatic failover. The implementation supports both API traffic and static content delivery with caching optimization.
-
-\subsubsection*{\underline{AWS CloudFront Setup}}
-CloudFront serves as the primary CDN for static content delivery and API acceleration with edge locations worldwide. I configured custom cache behaviors for different content types, origin shield for improved cache hit ratios, and Lambda@Edge functions for request processing at edge locations. The setup includes SSL certificate management and integration with AWS WAF for security.
+\subsection{Load Balancing and Traffic Management}
+The platform implements focused load balancing using AWS services to ensure reliable performance and security for production workloads.
 
 \subsubsection*{\underline{Application Load Balancer Configuration}}
-I implemented Azure Application Gateway and AWS Application Load Balancer for Layer 7 load balancing with path-based routing, SSL offloading, and integration with auto-scaling groups. The configuration includes session affinity for stateful components, health checks for service availability, and WebSocket support for real-time features.
+I deployed AWS Application Load Balancer as the single entry point for all external traffic. The configuration includes SSL/TLS termination using AWS Certificate Manager, path-based routing to the Kubernetes cluster, and integration with AWS WAF for application-layer protection. Health checks ensure automatic removal of unhealthy instances and seamless traffic routing.
+
+\subsubsection*{\underline{Kubernetes Ingress Implementation}}
+Within the EKS cluster, NGINX ingress controller handles internal service routing and traffic distribution. I configured ingress rules for each microservice, implemented SSL termination for internal traffic, and established rate limiting policies. The ingress controller integrates with the cluster autoscaler for dynamic scaling based on traffic patterns.
+
+\subsubsection*{\underline{Auto-scaling Integration}}
+The platform implements comprehensive auto-scaling using Kubernetes Horizontal Pod Autoscaler (HPA) and Vertical Pod Autoscaler (VPA). I configured CPU and memory-based scaling policies, custom metrics for application-specific scaling, and cluster-level scaling through AWS managed node groups. This ensures optimal resource utilization and cost management.
+
+\begin{figure}[H]
+    \centering
+    \makebox[\textwidth]{\includegraphics[width=\linewidth]{src/assets/images/aws-billing-monitoring.png}}
+    \caption{AWS Cost Monitoring and Billing Dashboard Implementation}
+    \label{fig:aws-billing-monitoring}
+\end{figure}
 
 % ----------------------- Network Security Implementation ----------------------- %
 \section{Network Security Implementation}
-Security is paramount for Navoy's AI travel platform, requiring comprehensive network security measures across both Azure and AWS environments to protect sensitive travel data and ensure compliance with international regulations.
+Security is paramount for Navoy's AI travel platform, requiring comprehensive network security measures focused on the AWS production environment while maintaining secure development practices in Azure.
 
 \subsection{Perimeter Security and DDoS Protection}
-I implemented multi-layered perimeter security to protect the platform from external threats and ensure service availability during attack scenarios.
+I implemented focused perimeter security to protect the platform from external threats and ensure service availability during attack scenarios.
 
 \subsubsection*{\underline{Web Application Firewall Deployment}}
-Azure WAF and AWS WAF were deployed with custom rule sets tailored for travel industry applications. The configuration includes OWASP Top 10 protection, rate limiting rules based on user behavior patterns, geolocation filtering for compliance requirements, and custom rules for API endpoint protection. I created specific rule groups for protecting AI model endpoints, payment processing paths, and user authentication flows.
+AWS WAF is deployed with custom rule sets tailored for travel industry applications. The configuration includes OWASP Top 10 protection, rate limiting rules based on user behavior patterns, geolocation filtering for compliance requirements, and custom rules for API endpoint protection. I created specific rule groups for protecting AI model endpoints, payment processing paths, and user authentication flows with the ALB integration.
 
 \subsubsection*{\underline{DDoS Protection Configuration}}
-I implemented Azure DDoS Protection Standard and AWS Shield Advanced for comprehensive volumetric attack mitigation. The configuration includes always-on traffic monitoring, automatic attack mitigation with sub-second response times, and post-attack analytics for continuous improvement. The implementation covers both network layer (L3/L4) and application layer (L7) protection with custom thresholds based on normal traffic patterns.
+I implemented AWS Shield Standard for basic DDoS protection across all AWS resources, with always-on traffic monitoring and automatic attack mitigation. The configuration includes custom thresholds based on normal traffic patterns and integration with CloudWatch for attack analytics. For the development environment, Azure DDoS Protection Standard provides similar protection for development resources.
 
 \subsubsection*{\underline{API Gateway Security}}
-Security at the API gateway level includes rate limiting with burst capacity, authentication token validation, request size limits, and IP allowlisting for administrative functions. I configured different rate limits for various user tiers and implemented progressive penalties for abusive behavior patterns.
+Security at the REST gateway service level includes rate limiting with burst capacity, authentication token validation, request size limits, and IP allowlisting for administrative functions. I configured different rate limits for various user tiers and implemented progressive penalties for abusive behavior patterns within the Kubernetes deployment.
 
-\subsection{Network Segmentation and Zero Trust Architecture}
-The platform implements comprehensive network segmentation with zero trust principles to minimize attack surfaces and contain potential breaches.
+\subsection{Network Segmentation and Security Architecture}
+The platform implements network segmentation with security best practices focused on the EKS cluster and supporting AWS infrastructure.
 
-\subsubsection*{\underline{Micro-segmentation Implementation}}
-I deployed network policies using Kubernetes Network Policies and Calico for fine-grained control over pod-to-pod communication. The configuration includes service-specific policies, database access restrictions, and external API communication controls. Each microservice operates within its own network segment with explicit allow rules for required communications.
+\subsubsection*{\underline{VPC Isolation and Segmentation}}
+The EKS cluster operates within a dedicated VPC with private subnets for enhanced security. I implemented network segmentation using security groups and NACLs to restrict traffic to only necessary ports and protocols. Database resources are deployed in isolated subnets with dedicated security groups restricting access to authorized services only.
 
-\subsubsection*{\underline{Service Mesh Security}}
-Istio service mesh provides encrypted service-to-service communication with mutual TLS authentication. I configured automatic certificate rotation, policy-based access controls, and traffic encryption for all internal communications. The implementation includes request-level authentication and authorization policies based on service identity.
+\subsubsection*{\underline{Kubernetes Network Policies}}
+I deployed Kubernetes Network Policies for fine-grained control over pod-to-pod communication within the EKS cluster. The configuration includes service-specific policies, database access restrictions, and external API communication controls. Each microservice operates within its own network segment with explicit allow rules for required communications and namespace-based segmentation.
 
-\subsubsection*{\underline{Database Network Isolation}}
-Database tiers operate in isolated subnets with no direct internet access, requiring application tier proxy for all connections. I implemented database-specific security groups, network ACLs for additional layer protection, and VPC endpoints for secure access to cloud database services without traffic leaving the cloud provider's network.
+\subsubsection*{\underline{Service-to-Service Communication Security}}
+Internal services communicate through private networking with security group rules enforcing least-privilege access. I implemented TLS encryption for service-to-service communication and configured service accounts with appropriate IAM roles for secure access to AWS services without requiring hardcoded credentials.
 
-\subsection{Network Monitoring and Threat Detection}
-Comprehensive monitoring and threat detection systems provide visibility into network traffic and enable rapid response to security incidents.
+\subsection{Network Monitoring and Security Observability}
+Comprehensive monitoring and security observability provide visibility into network traffic and enable rapid response to security incidents across the AWS infrastructure.
 
-\subsubsection*{\underline{VPC Flow Logs Analysis}}
-I implemented comprehensive VPC Flow Logs collection in both Azure and AWS with automated analysis using machine learning models. The system detects anomalous traffic patterns, unauthorized access attempts, and potential data exfiltration scenarios. Flow logs are processed in real-time with alerting for suspicious activities.
+\subsubsection*{\underline{VPC Flow Logs and Analysis}}
+I implemented comprehensive VPC Flow Logs collection within the EKS cluster VPC with integration into CloudWatch for automated analysis. The system detects anomalous traffic patterns, unauthorized access attempts, and potential security incidents. Flow logs are processed with alerting for suspicious activities and integration with security incident response procedures.
 
-\subsubsection*{\underline{Network Intrusion Detection}}
-Network-based IDS/IPS systems monitor traffic for known attack signatures and behavioral anomalies. I configured custom detection rules for travel industry specific threats, integration with threat intelligence feeds, and automated response procedures for confirmed threats.
+\subsubsection*{\underline{Security Hub Integration}}
+AWS Security Hub provides centralized security findings and compliance status monitoring across all AWS resources. I configured automated security assessments, compliance reporting for industry standards, and integration with incident response workflows. The system aggregates security findings from multiple AWS security services for comprehensive visibility.
 
-\subsubsection*{\underline{Security Information and Event Management}}
-Network security events are integrated into a centralized SIEM system for correlation and analysis. The implementation includes automated threat hunting, compliance reporting, and integration with incident response workflows. Security events from both cloud environments are normalized and correlated for comprehensive threat visibility.
+\subsubsection*{\underline{CloudTrail Logging and Monitoring}}
+AWS CloudTrail provides comprehensive API call logging for security audit trails and compliance monitoring. I configured CloudTrail to capture all management events, data events for sensitive resources, and integration with CloudWatch for real-time alerting on suspicious API activities. This ensures complete audit trails for security investigations and compliance requirements.
 
 % ----------------------- Microservices Implementation ----------------------- %
 \section{Microservices Implementation}
 This section details the technical implementation of each microservice according to the architecture defined in Chapter 3.
 
+\begin{figure}[H]
+    \centering
+    \makebox[\textwidth]{\includegraphics[width=\linewidth]{src/assets/images/gitlab-navoy-group.png}}
+    \caption{GitLab Group Structure - Navoy Microservices Repositories Overview}
+    \label{fig:gitlab-navoy-group}
+\end{figure}
+
 \subsection{REST Gateway Service Implementation}
-The gateway service serves as the central entry point for all external requests and implements comprehensive API management capabilities.
+The gateway service serves as the central entry point for all external requests and implements comprehensive API management capabilities using Envoy Proxy.
 
 \subsubsection*{\underline{Core Features Implementation}}
 \begin{itemize}
-    \item \textbf{Express.js Router Configuration:} Implemented modular routing with separate route handlers for each backend service
-    \item \textbf{Redis Rate Limiting:} Configured sliding window rate limiting using Redis with configurable limits per API key
-    \item \textbf{JWT Authentication Middleware:} Implemented token validation with automatic token refresh and revocation support
-    \item \textbf{Request Proxying:} Used http-proxy-middleware for intelligent request routing to backend services
-    \item \textbf{OpenAPI Documentation:} Generated comprehensive API documentation using Swagger/OpenAPI 3.0 specifications
+    \item \textbf{Envoy Proxy Configuration:} Configured Envoy as a service mesh proxy with advanced routing, load balancing, and traffic management
+    \item \textbf{Redis Rate Limiting:} Implemented rate limiting using Envoy's rate limit service with Redis backend for distributed rate limiting
+    \item \textbf{JWT Authentication Filter:} Configured Envoy JWT authentication filter for token validation and authorization
+    \item \textbf{Dynamic Routing:} Implemented intelligent request routing to backend services with health checks and circuit breakers
+    \item \textbf{OpenAPI Documentation:} Generated comprehensive API documentation with automatic service discovery
 \end{itemize}
 
 \subsubsection*{\underline{Performance Optimizations}}
@@ -186,14 +211,14 @@ The user service manages authentication, authorization, and user profile managem
 The trip generator service is the core AI-powered component that creates personalized travel itineraries.
 
 \subsubsection*{\underline{AI Integration Architecture}}
-The Trip Generator Service implements intelligent model selection and prompt engineering for optimal travel itinerary generation. I integrated LiteLLM as a unified proxy to access multiple AI models including OpenAI GPT-4 for creative trip planning and GPT-3.5-turbo for budget-conscious recommendations. The service implements asynchronous processing with proper error handling and response parsing to extract structured travel data from AI-generated content.
+The Trip Generator Service implements intelligent model selection and prompt engineering for optimal travel itinerary generation. I integrated LiteLLM as a unified proxy to access multiple AI models including OpenAI GPT-4 for creative trip planning and GPT-3.5-turbo for budget-conscious recommendations. Additionally, AWS Bedrock provides managed access to Anthropic Claude models within the production environment for trip evaluation and optimization tasks. The service implements asynchronous processing with proper error handling and response parsing to extract structured travel data from AI-generated content across all integrated model providers.
 
 \subsubsection*{\underline{Asynchronous Processing}}
 \begin{itemize}
-    \item \textbf{RabbitMQ Integration:} Implemented Celery workers for handling trip generation requests asynchronously
+    \item \textbf{AWS Lambda Integration:} Implemented serverless functions for handling trip generation requests asynchronously
     \item \textbf{Task Status Tracking:} Added Redis-based task status tracking for real-time progress updates
     \item \textbf{Error Handling:} Implemented retry mechanisms with exponential backoff for failed AI requests
-    \item \textbf{Load Balancing:} Configured multiple worker instances for horizontal scaling
+    \item \textbf{Load Balancing:} Configured multiple Lambda function instances for horizontal scaling
 \end{itemize}
 
 \subsection{Data Synchronization Implementation}
@@ -209,10 +234,37 @@ The travel data sync service maintains fresh travel data from external APIs with
 
 \subsubsection*{\underline{Scheduling and Performance}}
 \begin{itemize}
-    \item Configured Celery Beat for cron-based scheduled synchronization tasks
+    \item Configured AWS EventBridge for cron-based scheduled synchronization tasks
     \item Implemented batch processing for large datasets with progress tracking
     \item Added database indexing strategies for optimal query performance
     \item Created data archival processes for managing storage costs
+\end{itemize}
+
+\subsection{Vector Store Service Implementation}
+The vector store service provides high-performance semantic search capabilities using ChromaDB and gRPC communication.
+
+\subsubsection*{\underline{gRPC Server Implementation}}
+\begin{itemize}
+    \item \textbf{Protocol Buffer Definitions:} Defined comprehensive .proto files for vector operations and similarity queries
+    \item \textbf{Node.js gRPC Server:} Implemented high-performance gRPC server using @grpc/grpc-js library
+    \item \textbf{Streaming Support:} Added bi-directional streaming for batch vector operations and real-time similarity searches
+    \item \textbf{Error Handling:} Implemented comprehensive error handling with proper gRPC status codes and metadata
+\end{itemize}
+
+\subsubsection*{\underline{ChromaDB Integration}}
+\begin{itemize}
+    \item \textbf{Vector Database Management:} Configured ChromaDB collections for travel content embeddings
+    \item \textbf{Embedding Storage:} Implemented efficient storage and retrieval of travel destination and activity embeddings
+    \item \textbf{Similarity Search:} Added optimized similarity search algorithms with configurable distance metrics
+    \item \textbf{Index Management:} Implemented automated index optimization and maintenance procedures
+\end{itemize}
+
+\subsubsection*{\underline{RabbitMQ Consumer Integration}}
+\begin{itemize}
+    \item \textbf{Embedding Generation:} Implemented RabbitMQ consumers for processing embedding generation requests
+    \item \textbf{Asynchronous Processing:} Added queue-based processing for large-scale embedding operations
+    \item \textbf{Dead Letter Handling:} Configured dead letter queues for failed embedding generation attempts
+    \item \textbf{Scalability:} Implemented horizontal scaling with multiple consumer instances
 \end{itemize}
 
 % ----------------------- Infrastructure and Deployment ----------------------- %
@@ -238,10 +290,10 @@ The platform is deployed on a self-managed Kubernetes cluster with comprehensive
 
 \subsubsection*{\underline{Cluster Configuration}}
 \begin{itemize}
-    \item \textbf{MicroK8s Setup:} Deployed self-managed Kubernetes cluster using MicroK8s on Ubuntu 20.04 servers
-    \item \textbf{Network Configuration:} Configured Calico CNI for pod networking with network policies for security
-    \item \textbf{Storage Configuration:} Implemented persistent volume claims using local-path provisioner
-    \item \textbf{Load Balancing:} Deployed MetalLB for bare-metal load balancing with external IP allocation
+    \item \textbf{EKS Setup:} Deployed managed Kubernetes cluster using Amazon EKS with managed node groups
+    \item \textbf{Network Configuration:} Configured VPC CNI for pod networking with security groups for pods
+    \item \textbf{Storage Configuration:} Implemented EBS CSI driver for persistent storage with automated backup
+    \item \textbf{Load Balancing:} Deployed AWS Load Balancer Controller for ALB integration with Kubernetes ingress
 \end{itemize}
 
 \subsubsection*{\underline{Helm Charts Implementation}}
@@ -277,6 +329,13 @@ Implemented a comprehensive GitLab CI/CD pipeline with security scanning, automa
 \subsubsection*{\underline{Pipeline Stages}}
 The GitLab CI/CD pipeline consists of five main stages: testing, security scanning, building, staging deployment, and production deployment. Each stage includes specific jobs for unit testing, code coverage analysis, static security analysis, container security scanning, image building, and automated deployment. The pipeline uses Docker BuildKit for optimized container builds and includes comprehensive artifact collection for test results and security reports.
 
+\begin{figure}[H]
+    \centering
+    \makebox[\textwidth]{\includegraphics[width=\linewidth]{src/assets/images/pipeline-history-platform.png}}
+    \caption{GitLab CI/CD Pipeline History - Platform Service Frontend Deployment}
+    \label{fig:pipeline-history-platform}
+\end{figure}
+
 \subsection{Security Integration}
 Comprehensive security measures are integrated throughout the development and deployment lifecycle.
 
@@ -309,6 +368,13 @@ Implemented comprehensive testing strategy covering unit, integration, and end-t
 
 \subsubsection*{\underline{End-to-End Testing with Playwright}}
 Implemented comprehensive end-to-end testing using Playwright to simulate real user interactions with the travel platform. The tests cover the complete user journey from authentication through trip generation, including AI-powered itinerary creation workflows. Test scenarios include login processes, trip preference configuration, AI model interactions, and result validation with appropriate timeouts for AI processing.
+
+\begin{figure}[H]
+    \centering
+    \makebox[\textwidth]{\includegraphics[width=\linewidth]{src/assets/images/playwright-testing.png}}
+    \caption{Playwright End-to-End Testing Example}
+    \label{fig:playwright-testing}
+\end{figure}
 
 \subsection{Deployment Automation}
 Implemented blue-green deployment strategy with automated rollback capabilities and zero-downtime deployments.
@@ -359,19 +425,22 @@ This section summarizes all technologies implemented in the modernized Navoy AI 
 \subsection{Programming Languages and Frameworks}
 
 \subsubsection*{\underline{Node.js}}
-Node.js 18 LTS serves as the primary runtime for the REST Gateway Service and User Service. I chose Node.js for its excellent performance in handling concurrent API requests and its extensive ecosystem of middleware libraries. The implementation leverages Express.js framework for REST API development, providing robust middleware support for authentication, rate limiting, and request proxying.
+Node.js 18 LTS serves as the primary runtime for the Vector Store Service and as the foundation for NestJS-based services. I chose Node.js for its excellent performance in handling concurrent API requests, its extensive ecosystem of middleware libraries, and strong TypeScript support. The implementation includes the Vector Store Service with gRPC server capabilities for high-performance vector similarity queries.
 
-\subsubsection*{\underline{Python}}
-Python 3.11 powers the AI-intensive microservices including Trip Generator, Data Sync, and Vector Store services. Python's rich ecosystem for AI/ML libraries and its async capabilities through FastAPI make it ideal for processing AI model requests and handling large-scale data operations. The implementation uses Poetry for dependency management ensuring reproducible builds across environments.
+\subsubsection*{\underline{NestJS}}
+NestJS serves as the primary framework for the User Service, Trip Generator Service, and Travel Data Sync Service. I chose NestJS for its enterprise-grade architecture, built-in TypeScript support, powerful dependency injection system, and comprehensive decorator-based approach. The framework provides robust support for microservices architecture, database integration, and API development with automatic OpenAPI documentation generation.
+
+\subsubsection*{\underline{Envoy Proxy}}
+Envoy Proxy functions as the service mesh and API gateway, replacing traditional Express.js-based gateway implementations. I selected Envoy for its advanced traffic management capabilities, built-in observability features, dynamic configuration support, and proven performance in high-throughput scenarios. The implementation includes sophisticated routing, rate limiting, authentication, and load balancing features.
 
 \subsubsection*{\underline{TypeScript}}
 TypeScript enhances code quality and developer productivity across all Node.js services and frontend development. It provides compile-time type checking, better IDE support, and improved maintainability for large codebases. The implementation includes strict TypeScript configurations and custom type definitions for API contracts.
 
-\subsubsection*{\underline{FastAPI}}
-FastAPI serves as the high-performance web framework for Python services, providing automatic API documentation, request validation, and async support. Its integration with OpenAPI standards ensures consistent API documentation across all services, while its performance characteristics make it ideal for AI model serving and real-time data processing.
+\subsubsection*{\underline{gRPC}}
+gRPC serves as the high-performance communication protocol for the Vector Store Service, providing efficient binary serialization and bi-directional streaming capabilities. I chose gRPC for its superior performance characteristics compared to REST APIs, especially for high-frequency vector similarity queries. The implementation includes Protocol Buffer definitions for type-safe communication and automatic client generation for multiple languages.
 
-\subsubsection*{\underline{Express.js}}
-Express.js provides the foundational web framework for Node.js services, offering flexibility and extensive middleware ecosystem. The implementation leverages Express for routing, middleware composition, and HTTP server functionality while maintaining lightweight and performant API endpoints.
+\subsubsection*{\underline{TypeScript}}
+TypeScript enhances code quality and developer productivity across all Node.js and NestJS services. It provides compile-time type checking, better IDE support, and improved maintainability for large codebases. The implementation includes strict TypeScript configurations, custom type definitions for API contracts, and comprehensive decorator-based architecture with NestJS.
 
 \subsection{Databases and Storage Solutions}
 
@@ -396,7 +465,7 @@ Elasticsearch provides powerful search and analytics capabilities for centralize
 \subsection{DevSecOps and Infrastructure Technologies}
 
 \subsubsection*{\underline{Kubernetes}}
-Kubernetes 1.28 orchestrates the entire containerized infrastructure using a self-managed MicroK8s cluster. I chose Kubernetes for its robust container orchestration capabilities, automatic scaling, service discovery, and rolling deployment features. The implementation includes custom resource definitions, network policies for security, and comprehensive monitoring integration.
+Kubernetes 1.28 orchestrates the entire containerized infrastructure using Amazon EKS managed Kubernetes service. I chose EKS for its robust container orchestration capabilities, automatic scaling, service discovery, rolling deployment features, and integrated AWS service support. The implementation includes managed node groups, network policies for security, and comprehensive monitoring integration with AWS CloudWatch.
 
 \subsubsection*{\underline{Docker}}
 Docker provides containerization for all microservices with optimized multi-stage builds and comprehensive security scanning. The implementation emphasizes minimal attack surfaces through Alpine Linux base images, non-root user configurations, and automated vulnerability assessment in the CI/CD pipeline.
@@ -421,11 +490,21 @@ OpenAI GPT-4 functions as the primary AI model for creative trip generation and 
 \subsubsection*{\underline{Anthropic Claude}}
 Anthropic Claude provides secondary AI capabilities, particularly for detailed travel advice and safety considerations. Its focus on helpful, harmless, and honest responses makes it valuable for travel safety recommendations and detailed destination information.
 
-\subsubsection*{\underline{RabbitMQ}}
-RabbitMQ serves as the message broker for asynchronous processing and service decoupling. The implementation includes durable queues, message persistence, and dead letter queues for handling failed processing scenarios while maintaining data integrity across distributed operations.
+\subsubsection*{\underline{AWS Bedrock}}
+AWS Bedrock provides managed access to foundation models from multiple AI providers, including Anthropic Claude models, for advanced AI capabilities within the AWS production environment. The service enables seamless integration with Claude models for trip evaluation, optimization, and enhanced recommendation generation without the complexity of managing model infrastructure. Through Bedrock, the platform can access Claude's advanced reasoning capabilities for travel safety assessments, cultural sensitivity recommendations, and complex multi-destination trip planning scenarios while maintaining enterprise-grade security and compliance within the AWS ecosystem.
 
-\subsubsection*{\underline{Celery}}
-Celery provides distributed task queue functionality for background job processing, particularly for AI model calls and data synchronization tasks. The implementation includes worker scaling, task prioritization, and comprehensive monitoring of background processes.
+\begin{figure}[H]
+    \centering
+    \makebox[\textwidth]{\includegraphics[width=\linewidth]{src/assets/images/aws-bedrock-model-catalog.png}}
+    \caption{AWS Bedrock Model Catalog - Foundation Model Selection Interface}
+    \label{fig:aws-bedrock-model-catalog}
+\end{figure}
+
+\subsubsection*{\underline{Amazon SQS/SNS}}
+Amazon SQS and SNS serve as the message queuing and notification services for asynchronous processing and service decoupling. The implementation includes durable queues through SQS, message fan-out via SNS, and dead letter queues for handling failed processing scenarios while maintaining data integrity across distributed operations. These services integrate seamlessly with AWS Lambda for event-driven serverless processing.
+
+\subsubsection*{\underline{AWS Lambda}}
+AWS Lambda provides serverless compute functionality for background job processing, particularly for AI model calls and data synchronization tasks. The implementation includes automatic scaling based on demand, cost-effective pay-per-execution pricing, and seamless integration with other AWS services. Lambda functions handle asynchronous trip generation processing, scheduled data synchronization, and event-driven workflows while eliminating infrastructure management overhead.
 
 \subsubsection*{\underline{Stripe API}}
 Stripe API handles payment processing for both subscription-based and pay-per-use billing models. The integration includes webhook handling for real-time payment status updates, subscription management, and compliance with PCI DSS requirements.
@@ -443,7 +522,7 @@ During the implementation of Navoy's modernized AI travel platform, I encountere
 \subsection{Microservices Data Consistency}
 \textbf{Challenge:} Maintaining data consistency across multiple microservices while ensuring service autonomy and avoiding distributed transactions.
 
-\textbf{Solution:} Implemented the Saga pattern with event-driven architecture using RabbitMQ. Each service publishes domain events when data changes occur, and other services subscribe to relevant events to maintain their local data consistency. Added compensation mechanisms for handling failures in distributed operations.
+\textbf{Solution:} Implemented the Saga pattern with event-driven architecture using Amazon SNS and SQS. Each service publishes domain events to SNS topics when data changes occur, and other services subscribe via SQS queues to relevant events to maintain their local data consistency. Added compensation mechanisms using AWS Lambda functions for handling failures in distributed operations.
 
 \subsection{AI Model Cost Optimization}
 \textbf{Challenge:} Managing costs associated with AI model usage while maintaining response quality and availability.
@@ -478,8 +557,6 @@ During the implementation of Navoy's modernized AI travel platform, I encountere
 \setcounter{secnumdepth}{0} % Set the section counter to 0 so next section is not counted in toc
 % ----------------------- Conclusion ----------------------- %
 \section{Conclusion}
-This chapter detailed the successful implementation of Navoy's modernized AI travel platform, transforming from a monolithic architecture to a scalable microservices ecosystem. The implementation involved establishing a containerized development environment, implementing eight core microservices, and deploying the system using comprehensive DevSecOps practices.
+This chapter detailed the successful implementation of Navoy's modernized AI travel platform, transforming from a monolithic architecture to a scalable microservices ecosystem using comprehensive DevSecOps practices.
 
-Key achievements include the successful integration of AI-powered trip generation, robust monitoring solutions with Prometheus and Grafana, automated CI/CD pipelines with security scanning, and infrastructure deployment using Terraform and Kubernetes. The platform now provides a solid foundation that can scale to meet growing demands while maintaining security and reliability standards.
-
-The challenges encountered during microservices communication, AI integration, and cluster management were resolved through careful architectural decisions and proven DevSecOps practices, creating a blueprint for modern travel technology platforms.
+Key achievements include AI-powered trip generation, robust monitoring with Prometheus and Grafana, automated CI/CD pipelines with security scanning, and infrastructure deployment using Terraform and Kubernetes. The platform now provides a solid foundation that can scale to meet growing demands while maintaining security and reliability standards.

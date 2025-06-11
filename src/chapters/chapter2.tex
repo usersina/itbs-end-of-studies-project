@@ -119,10 +119,10 @@ This approach allows organic access to both OpenAI's GPT models and Claude, prov
 % ----------------------- Cloud Infrastructure and Network Architecture ----------------------- %
 \section{Cloud Infrastructure and Network Architecture}
 
-\subsection{Multi-Cloud Network Design}
-Modern travel platforms require robust, scalable network infrastructure that can handle global traffic patterns and ensure low-latency access to AI services. The network architecture must support microservices communication, secure data transmission, and efficient traffic routing across multiple cloud regions.
+\subsection{Cloud Network Design}
+Modern travel platforms require robust, scalable network infrastructure that can handle global traffic patterns and ensure low-latency access to AI services. The network architecture must support microservices communication, secure data transmission, and efficient traffic routing for optimal performance.
 
-For Navoy's AI travel platform, the network design encompasses VPC architecture, subnet segmentation, load balancing strategies, CDN implementation, and cross-cloud connectivity. This infrastructure supports both the distributed microservices architecture and the AI model serving requirements while maintaining security and performance standards.
+For Navoy's AI travel platform, the network design encompasses VPC architecture, subnet segmentation, load balancing strategies, and secure connectivity. This infrastructure supports both the distributed microservices architecture and the AI model serving requirements while maintaining security and performance standards.
 
 \subsection{Network Security and Compliance}
 Network security is paramount for travel platforms handling sensitive user data, payment information, and booking details. The architecture must implement defense-in-depth strategies including network segmentation, traffic encryption, DDoS protection, and compliance with international data protection regulations.
@@ -165,41 +165,41 @@ For cloud infrastructure deployment, selecting the right provider and understand
     \hline
 \end{longtable}
 
-For Navoy's platform, I implemented a multi-cloud strategy utilizing both Azure and AWS to leverage the strengths of each provider. Azure provides excellent integration with development tools and cost-effective European operations, while AWS offers superior global reach and mature AI/ML services for the trip generation components.
+For Navoy's platform, I implemented a practical deployment strategy utilizing Azure for development support and shared resources, while AWS serves as the production environment. Azure provides excellent integration with development tools and cost-effective development operations, while AWS offers superior production-grade services and mature AI/ML capabilities for the trip generation components.
 
 \subsection{Network Monitoring: Prometheus vs Azure Monitor vs CloudWatch}
-Network monitoring and observability are critical for maintaining the performance and reliability of distributed travel platforms across multiple cloud environments.
+Network monitoring and observability are critical for maintaining the performance and reliability of distributed travel platforms across cloud environments.
 
 \renewcommand{\arraystretch}{1.5}%
 \begin{longtable}{| p{0.2\textwidth} | p{0.38\textwidth} | p{0.38\textwidth} |}
-    \caption{Comparative study of Network Monitoring Solutions}                                                                                                                                                                                                                                         \\
+    \caption{Comparative study of Network Monitoring Solutions}                                                                                                                                                                                                                                       \\
     \hline
-    \rowcolor{primary} \textbf{Solution} & \textbf{Network Monitoring Capabilities}                                                                                                     & \textbf{Integration and Scalability}                                                                          \\
+    \rowcolor{primary} \textbf{Solution} & \textbf{Network Monitoring Capabilities}                                                                                                     & \textbf{Integration and Scalability}                                                                        \\
     \hline
     \endfirsthead
 
     \multicolumn{3}{c}%
-    {{\bfseries \tablename\ \thetable{} -- continued from previous page}}                                                                                                                                                                                                                               \\
+    {{\bfseries \tablename\ \thetable{} -- continued from previous page}}                                                                                                                                                                                                                             \\
     \hline
-    \rowcolor{primary} \textbf{Solution} & \textbf{Network Monitoring Capabilities}                                                                                                     & \textbf{Integration and Scalability}                                                                          \\
+    \rowcolor{primary} \textbf{Solution} & \textbf{Network Monitoring Capabilities}                                                                                                     & \textbf{Integration and Scalability}                                                                        \\
     \hline
     \endhead
 
-    \hline \multicolumn{3}{|r|}{{Continued on next page}}                                                                                                                                                                                                                                               \\
+    \hline \multicolumn{3}{|r|}{{Continued on next page}}                                                                                                                                                                                                                                             \\
     \endfoot
 
     \hline
     \endlastfoot
 
-    \textbf{Prometheus}                  & Open-source metrics collection with custom network exporters, supports multi-cloud environments, and provides flexible querying with PromQL. & Excellent Kubernetes integration, supports federated monitoring across multiple clusters and cloud providers. \\
+    \textbf{Prometheus}                  & Open-source metrics collection with custom network exporters, supports distributed environments, and provides flexible querying with PromQL. & Excellent Kubernetes integration, supports federated monitoring across multiple clusters and cloud regions. \\
     \hline
-    \textbf{Azure Monitor}               & Native Azure network monitoring with Network Watcher, VNet flow logs, and Application Gateway analytics.                                     & Deep integration with Azure services, supports hybrid monitoring with on-premises connectivity insights.      \\
+    \textbf{Azure Monitor}               & Native Azure network monitoring with Network Watcher, VNet flow logs, and Application Gateway analytics.                                     & Deep integration with Azure services, supports hybrid monitoring with on-premises connectivity insights.    \\
     \hline
-    \textbf{AWS CloudWatch}              & Comprehensive AWS network metrics, VPC Flow Logs analysis, and X-Ray for distributed tracing across network boundaries.                      & Native AWS integration, supports cross-region monitoring and custom network performance dashboards.           \\
+    \textbf{AWS CloudWatch}              & Comprehensive AWS network metrics, VPC Flow Logs analysis, and X-Ray for distributed tracing across network boundaries.                      & Native AWS integration, supports cross-region monitoring and custom network performance dashboards.         \\
     \hline
 \end{longtable}
 
-For Navoy's multi-cloud architecture, I implemented a hybrid monitoring approach using Prometheus for cross-cloud metrics aggregation, complemented by native cloud monitoring services for cloud-specific network insights and detailed traffic analysis.
+For Navoy's architecture, I implemented a comprehensive monitoring approach using Prometheus for production metrics collection, complemented by native cloud monitoring services for cloud-specific insights and detailed performance analysis.
 
 % ----------------------- Comparative Analysis ----------------------- %
 \section{Comparative Analysis}
@@ -402,4 +402,4 @@ We also deemed it necessary to have some common configuration that we simply app
 \setcounter{secnumdepth}{0} % Set the section counter to 0 so next section is not counted in toc
 % ----------------------- Conclusion ----------------------- %
 \section{Conclusion}
-This chapter reviewed the key concepts and technologies essential for modernizing Navoy's AI travel platform, with a focus on secure, scalable, and network-optimized architecture. After comparative analysis, I selected solutions that best support multi-cloud deployment, robust security, and efficient AI-driven services. These choices lay the groundwork for a resilient and future-proof platform.
+This chapter reviewed the key concepts and technologies essential for modernizing Navoy's AI travel platform, with a focus on secure, scalable, and network-optimized architecture. After comparative analysis, I selected solutions that best support practical cloud deployment, robust security, and efficient AI-driven services. These choices lay the groundwork for a resilient and future-proof platform.

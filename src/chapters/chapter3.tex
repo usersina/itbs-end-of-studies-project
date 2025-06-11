@@ -5,9 +5,9 @@
 \setcounter{secnumdepth}{0} % Set the section counter to 0 so next section is not counted in toc
 % ----------------------- Introduction ----------------------- %
 \section{Introduction}
-In this chapter, I analyze the network architecture requirements and cloud infrastructure specifications for modernizing Navoy's AI travel platform. I focus on the network engineering aspects, multi-cloud deployment strategies, and the technical requirements for implementing a globally distributed, scalable travel platform.
+In this chapter, I analyze the network architecture requirements and cloud infrastructure specifications for modernizing Navoy's AI travel platform. I focus on the network engineering aspects, practical deployment strategies, and the technical requirements for implementing a scalable travel platform.
 
-I describe the platform's network topology, cloud infrastructure requirements, inter-service communication patterns, and the network security measures that must be implemented across Azure and AWS environments for optimal performance and reliability.
+I describe the platform's network topology, cloud infrastructure requirements using Azure for development support and AWS for production deployment, inter-service communication patterns, and the network security measures that must be implemented to ensure optimal performance and reliability.
 
 \setcounter{secnumdepth}{2} % Resume counting the sections for the toc with a depth of 2 (Sections and sub-sections)
 % ----------------------------------- SECTIONS (v) ----------------------------------- %
@@ -243,7 +243,7 @@ A detailed version of this system architecture diagram with comprehensive servic
 \subsection{Core Microservices Design}
 
 \subsubsection*{\underline{REST Gateway Service}}
-\textbf{Technology Stack:} Node.js with Express, Redis for caching and rate limiting\\
+\textbf{Technology Stack:} Envoy Proxy, Redis for caching and rate limiting\\
 \textbf{Primary Functions:}
 \begin{itemize}
     \item Centralized API entry point for all external requests
@@ -254,7 +254,7 @@ A detailed version of this system architecture diagram with comprehensive servic
 \end{itemize}
 
 \subsubsection*{\underline{User Service}}
-\textbf{Technology Stack:} Node.js, PostgreSQL, JWT authentication\\
+\textbf{Technology Stack:} NestJS, PostgreSQL, JWT authentication\\
 \textbf{Primary Functions:}
 \begin{itemize}
     \item Multi-tenant user authentication and authorization
@@ -265,7 +265,7 @@ A detailed version of this system architecture diagram with comprehensive servic
 \end{itemize}
 
 \subsubsection*{\underline{Trip Generator Service}}
-\textbf{Technology Stack:} Python, FastAPI, MongoDB, RabbitMQ, LiteLLM\\
+\textbf{Technology Stack:} NestJS, MongoDB, RabbitMQ, LiteLLM\\
 \textbf{Primary Functions:}
 \begin{itemize}
     \item AI-powered trip itinerary generation using GPT and Claude models
@@ -276,7 +276,7 @@ A detailed version of this system architecture diagram with comprehensive servic
 \end{itemize}
 
 \subsubsection*{\underline{Travel Data Sync Service}}
-\textbf{Technology Stack:} Python, MongoDB, Celery for task scheduling\\
+\textbf{Technology Stack:} NestJS, MongoDB, Celery for task scheduling\\
 \textbf{Primary Functions:}
 \begin{itemize}
     \item Automated synchronization with external travel APIs (Viator, Amadeus)
@@ -284,6 +284,17 @@ A detailed version of this system architecture diagram with comprehensive servic
     \item Data transformation and normalization for consistent internal format
     \item Change detection and incremental update mechanisms
     \item Performance optimization through local data caching
+\end{itemize}
+
+\subsubsection*{\underline{Vector Store Service}}
+\textbf{Technology Stack:} Node.js, ChromaDB, gRPC, RabbitMQ\\
+\textbf{Primary Functions:}
+\begin{itemize}
+    \item Embedding generation through RabbitMQ consumer integration
+    \item High-performance gRPC interface for vector similarity queries
+    \item ChromaDB integration for semantic search capabilities
+    \item Vector-based travel content similarity matching
+    \item Real-time embedding updates and indexing
 \end{itemize}
 
 \subsection{Data Architecture and Storage Strategy}
@@ -334,6 +345,7 @@ The platform implements a "database per service" pattern to ensure service auton
 \begin{itemize}
     \item REST APIs for real-time operations requiring immediate responses
     \item HTTP/HTTPS with JSON payloads for external API integrations
+    \item gRPC for high-performance vector store service communication
 \end{itemize}
 
 \textbf{Asynchronous Communication:}
